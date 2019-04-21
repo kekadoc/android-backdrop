@@ -113,7 +113,6 @@ public class MaterialInterface extends FrameLayout {
 
         int heightBABC = (int) getResources().getDimension(com.qegame.bottomappbarcustom.R.dimen.height_bottom_app_bar_custom);
         int heightSubtitle = (int) getResources().getDimension(R.dimen.height_subtitle);
-
         int frontBottomMargin = heightBABC + heightSubtitle;
 
         QeUtil.setMargin(this.scroll_back, 0, 0, 0, frontBottomMargin);
@@ -121,7 +120,7 @@ public class MaterialInterface extends FrameLayout {
         this.title.setTextColor(this.colorOnPrimary);
         this.subtitle.setTextColor(this.colorOnSurface);
 
-        setFrontShape(FrontShape.RIGHT_CUT);
+        setFrontShape(FrontShape.ALL_ROUND);
 
         this.icon_navigation.setOnClickListener(new OnClickListener() {
             @Override
@@ -227,6 +226,11 @@ public class MaterialInterface extends FrameLayout {
 
     public void setSubtitle(String title) {
         this.subtitle.setText(title);
+        if (title == null || title == "") {
+            this.subtitle.setClickable(false);
+        } else {
+            this.subtitle.setClickable(true);
+        }
     }
 
     public void setTitle(String title) {
