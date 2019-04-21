@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="height_title">56dp</dimen>
+    <dimen name="corner_round">16dp</dimen>
+    <dimen name="corner_cut">24dp</dimen>
+
+    <dimen name="height_subtitle">48dp</dimen>
+    <dimen name="padding_left_subtitle">16dp</dimen>
+    <dimen name="padding_top_subtitle">12dp</dimen>
+    <dimen name="padding_right_subtitle">16dp</dimen>
+    <dimen name="padding_bottom_subtitle">12dp</dimen>
+
+    <dimen name="padding_left_view_back">16dp</dimen>
+    <dimen name="padding_top_view_back">0dp</dimen>
+    <dimen name="padding_right_view_back">16dp</dimen>
+    <dimen name="padding_bottom_view_back">0dp</dimen>
+
+</resources>
