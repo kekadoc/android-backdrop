@@ -9,6 +9,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnticipateInterpolator;
+import android.view.animation.BounceInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -245,6 +246,12 @@ public class MaterialInterface extends FrameLayout {
 
 
     private void navigationClick() {
+        if (back_items.getChildCount() == 0) {
+            Anim anim_icon = new Anim(icon_navigation);
+            anim_icon.translationY(-30, 0, 1000, new BounceInterpolator());
+            anim_icon.start();
+            return;
+        }
         if (this.expanded) {
             hideBack();
         } else {

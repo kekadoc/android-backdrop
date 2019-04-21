@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
         materialInterface.setSubtitle("Subtitle");
 
-        materialInterface.removeAllViewInBack();
+        /*materialInterface.removeAllViewInBack();
         for (int i = 0; i < 10; i++) {
             materialInterface.addViewToBack(new Button(this));
         }
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         View view = getLayoutInflater().inflate(R.layout.content, materialInterface.getContentContainer(), false);
-        materialInterface.setContentView(view);
+        materialInterface.setContentView(view);*/
 
     }
 
