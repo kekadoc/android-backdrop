@@ -226,11 +226,6 @@ public class MaterialInterface extends FrameLayout {
     }
 
     public void setSubtitle(String title) {
-        if (title == null || title.equals("")) {
-            this.subtitle.setVisibility(GONE);
-        } else {
-            this.subtitle.setVisibility(VISIBLE);
-        }
         this.subtitle.setText(title);
     }
 
