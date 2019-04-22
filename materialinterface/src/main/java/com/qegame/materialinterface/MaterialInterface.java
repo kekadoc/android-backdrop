@@ -247,6 +247,10 @@ public class MaterialInterface extends FrameLayout {
         this.content.setPadding(left, top, right, bottom);
     }
 
+    public void performClickBottomIcon(int position) {
+        this.bar.performClickIcon(position);
+    }
+
 
     private void navigationClick() {
         if (back_items.getChildCount() == 0) {

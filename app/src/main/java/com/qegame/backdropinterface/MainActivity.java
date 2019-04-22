@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
         View view = getLayoutInflater().inflate(R.layout.content, materialInterface.getContentContainer(), false);
         materialInterface.setContentView(view);
+        materialInterface.performClickBottomIcon(1);
 
     }
 
