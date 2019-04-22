@@ -227,9 +227,9 @@ public class MaterialInterface extends FrameLayout {
     public void setSubtitle(String title) {
         this.subtitle.setText(title);
         if (title == null || title == "") {
-            this.subtitle.setClickable(false);
+            this.subtitle.setVisibility(GONE);
         } else {
-            this.subtitle.setClickable(true);
+            this.subtitle.setVisibility(VISIBLE);
         }
     }
 
