@@ -243,6 +243,10 @@ public class MaterialInterface extends FrameLayout {
         this.container_title.setBackgroundColor(color);
     }
 
+    public void setContentPadding(int left, int top, int right, int bottom) {
+        this.content.setPadding(left, top, right, bottom);
+    }
+
 
     private void navigationClick() {
         if (back_items.getChildCount() == 0) {

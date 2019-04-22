@@ -46,11 +46,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        materialInterface.setFrontShape(MaterialInterface.FrontShape.ALL_ROUND);
+        materialInterface.setFrontShape(MaterialInterface.FrontShape.ALL_ROUND);*/
+        materialInterface.setContentPadding(50, 50, 50, 50);
 
 
         View view = getLayoutInflater().inflate(R.layout.content, materialInterface.getContentContainer(), false);
-        materialInterface.setContentView(view);*/
+        materialInterface.setContentView(view);
 
     }
 
