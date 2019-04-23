@@ -102,8 +102,8 @@
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:elevation="1dp"
-            android:paddingBottom="@dimen/height_bottom_app_bar">
+            android:layout_marginBottom="@dimen/height_bottom_app_bar"
+            android:elevation="1dp">
 
 
         </FrameLayout>

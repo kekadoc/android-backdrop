@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         materialInterface.setFrontShape(MaterialInterface.FrontShape.ALL_ROUND);*/
-        materialInterface.setContentPadding(50, 50, 50, 50);
+        materialInterface.setContentPadding(50, 50, 50, 0);
 
 
         View view = getLayoutInflater().inflate(R.layout.content, materialInterface.getContentContainer(), false);
