@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import com.qegame.bottomappbarcustom.BottomAppBarCustom;
 import com.qegame.materialinterface.MaterialInterface;
 
-// TODO: 23.04.2019 Show Snack bar 
+// TODO: 23.04.2019 Show Snack bar
 
 public class MainActivity extends AppCompatActivity {
     private final String TAG = "MainActivity-ИНФ";

@@ -251,6 +251,12 @@ public class MaterialInterface extends FrameLayout {
         this.bar.performClickIcon(position);
     }
 
+    public void showSnackBar(String text) {
+        this.bar.showSnackBar(text);
+    }
+    public void showSnackBar(String text, int duration) {
+        this.bar.showSnackBar(text, duration);
+    }
 
     private void navigationClick() {
         if (back_items.getChildCount() == 0) {
