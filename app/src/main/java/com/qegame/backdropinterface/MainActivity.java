@@ -7,13 +7,10 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
 
-import com.qegame.bottomappbarcustom.BottomAppBarCustom;
+import com.qegame.animsimple.Anim;
+import com.qegame.bottomappbarqe.BottomAppBarQe;
 import com.qegame.materialinterface.MaterialInterface;
-
-// TODO: 23.04.2019 Show Snack bar
 
 public class MainActivity extends AppCompatActivity {
     private final String TAG = "MainActivity-ИНФ";
@@ -58,8 +55,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private BottomAppBarCustom.Construction.FABEnd getFabEnd() {
-        BottomAppBarCustom.FABSettings fab = new BottomAppBarCustom.FABSettings() {
+    private BottomAppBarQe.Construction.FABEnd getFabEnd() {
+        BottomAppBarQe.FABSettings fab = new BottomAppBarQe.FABSettings() {
             @Override
             public Drawable getImage() {
                 return null;
@@ -74,9 +71,14 @@ public class MainActivity extends AppCompatActivity {
                     }
                 };
             }
+
+            @Override
+            public Anim getAnimation(Anim animDefault) {
+                return animDefault;
+            }
         };
 
-        BottomAppBarCustom.IconSettings icon_0 = new BottomAppBarCustom.IconSettings() {
+        BottomAppBarQe.IconSettings icon_0 = new BottomAppBarQe.IconSettings() {
 
             @Override
             public Drawable getImage() {
@@ -88,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                 return new ToastListener("icon_0");
             }
         };
-        BottomAppBarCustom.IconSettings icon_1 = new BottomAppBarCustom.IconSettings() {
+        BottomAppBarQe.IconSettings icon_1 = new BottomAppBarQe.IconSettings() {
 
             @Override
             public Drawable getImage() {
@@ -100,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                 return new ToastListener("icon_1");
             }
         };
-        BottomAppBarCustom.IconSettings icon_2 = new BottomAppBarCustom.IconSettings() {
+        BottomAppBarQe.IconSettings icon_2 = new BottomAppBarQe.IconSettings() {
 
             @Override
             public Drawable getImage() {
@@ -113,10 +115,10 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        return new BottomAppBarCustom.Construction.FABEnd(fab, icon_0, icon_1, icon_2);
+        return new BottomAppBarQe.Construction.FABEnd(fab, icon_0, icon_1, icon_2);
     }
-    private BottomAppBarCustom.Construction.FABCenter getFabCenter() {
-        BottomAppBarCustom.FABSettings fab = new BottomAppBarCustom.FABSettings() {
+    private BottomAppBarQe.Construction.FABCenter getFabCenter() {
+        BottomAppBarQe.FABSettings fab = new BottomAppBarQe.FABSettings() {
             @Override
             public Drawable getImage() {
                 return null;
@@ -131,9 +133,14 @@ public class MainActivity extends AppCompatActivity {
                     }
                 };
             }
+
+            @Override
+            public Anim getAnimation(Anim animDefault) {
+                return animDefault;
+            }
         };
 
-        BottomAppBarCustom.IconSettings icon_0 = new BottomAppBarCustom.IconSettings() {
+        BottomAppBarQe.IconSettings icon_0 = new BottomAppBarQe.IconSettings() {
 
             @Override
             public Drawable getImage() {
@@ -146,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
                 return new ToastListener("icon_0");
             }
         };
-        BottomAppBarCustom.IconSettings icon_1 = new BottomAppBarCustom.IconSettings() {
+        BottomAppBarQe.IconSettings icon_1 = new BottomAppBarQe.IconSettings() {
 
             @Override
             public Drawable getImage() {
@@ -158,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
                 return new ToastListener("icon_1");
             }
         };
-        BottomAppBarCustom.IconSettings icon_2 = new BottomAppBarCustom.IconSettings() {
+        BottomAppBarQe.IconSettings icon_2 = new BottomAppBarQe.IconSettings() {
 
             @Override
             public Drawable getImage() {
@@ -171,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        return new BottomAppBarCustom.Construction.FABCenter(fab, new BottomAppBarCustom.IconSettings[]{icon_0, icon_1}, new BottomAppBarCustom.IconSettings[]{icon_2});
+        return new BottomAppBarQe.Construction.FABCenter(fab, new BottomAppBarQe.IconSettings[]{icon_0, icon_1}, new BottomAppBarQe.IconSettings[]{icon_2});
     }
 
     private class ToastListener implements View.OnClickListener {

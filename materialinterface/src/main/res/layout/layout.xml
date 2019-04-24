@@ -109,7 +109,7 @@
         </FrameLayout>
     </LinearLayout>
 
-    <com.qegame.bottomappbarcustom.BottomAppBarCustom
+    <com.qegame.bottomappbarqe.BottomAppBarQe
         android:id="@+id/bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

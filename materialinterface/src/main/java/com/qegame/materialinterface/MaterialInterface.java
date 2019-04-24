@@ -21,9 +21,8 @@ import com.google.android.material.shape.CutCornerTreatment;
 import com.google.android.material.shape.MaterialShapeDrawable;
 import com.google.android.material.shape.RoundedCornerTreatment;
 import com.google.android.material.shape.ShapeAppearanceModel;
-import com.google.android.material.shape.TriangleEdgeTreatment;
 import com.qegame.animsimple.Anim;
-import com.qegame.bottomappbarcustom.BottomAppBarCustom;
+import com.qegame.bottomappbarqe.BottomAppBarQe;
 import com.qegame.qeshaper.QeShaper;
 import com.qegame.qeutil.QeUtil;
 
@@ -45,7 +44,7 @@ public class MaterialInterface extends FrameLayout {
     private ViewGroup back;
     private ViewGroup front;
     private ViewGroup container_title;
-    private BottomAppBarCustom bar;
+    private BottomAppBarQe bar;
     private ImageView icon_navigation;
     private ImageView icon_first;
     private ImageView icon_second;
@@ -111,7 +110,7 @@ public class MaterialInterface extends FrameLayout {
 
         setBackColor(this.colorPrimary);
 
-        int heightBABC = (int) getResources().getDimension(com.qegame.bottomappbarcustom.R.dimen.height_bottom_app_bar_custom);
+        int heightBABC = (int) getResources().getDimension(com.qegame.bottomappbarqe.R.dimen.height_bottom_app_bar_custom);
         int heightSubtitle = (int) getResources().getDimension(R.dimen.height_subtitle);
         int frontBottomMargin = heightBABC + heightSubtitle;
 
@@ -156,7 +155,7 @@ public class MaterialInterface extends FrameLayout {
 
     //region Getters/Setters
 
-    public BottomAppBarCustom getBar() {
+    public BottomAppBarQe getBar() {
         return bar;
     }
     public ViewGroup getContentContainer() {
@@ -200,7 +199,7 @@ public class MaterialInterface extends FrameLayout {
         back_items.removeAllViews();
     }
 
-    public void buildFirstIcon(BottomAppBarCustom.IconSettings iconSettings) {
+    public void buildFirstIcon(BottomAppBarQe.IconSettings iconSettings) {
         if (iconSettings == null) {
             icon_first.setVisibility(GONE);
         } else {
@@ -209,7 +208,7 @@ public class MaterialInterface extends FrameLayout {
             icon_first.setOnClickListener(iconSettings.getClickListener());
         }
     }
-    public void buildSecondIcon(BottomAppBarCustom.IconSettings iconSettings) {
+    public void buildSecondIcon(BottomAppBarQe.IconSettings iconSettings) {
         if (iconSettings == null) {
             icon_second.setVisibility(GONE);
         } else {
