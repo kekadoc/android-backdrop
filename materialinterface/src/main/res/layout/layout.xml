@@ -113,8 +113,7 @@
         android:id="@+id/bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:elevation="8dp" />
+        android:layout_gravity="bottom"/>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
