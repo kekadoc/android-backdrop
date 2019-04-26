@@ -21,6 +21,7 @@ import com.google.android.material.shape.CutCornerTreatment;
 import com.google.android.material.shape.MaterialShapeDrawable;
 import com.google.android.material.shape.RoundedCornerTreatment;
 import com.google.android.material.shape.ShapeAppearanceModel;
+import com.google.android.material.snackbar.Snackbar;
 import com.qegame.animsimple.Anim;
 import com.qegame.bottomappbarqe.BottomAppBarQe;
 import com.qegame.qeshaper.QeShaper;
@@ -250,11 +251,11 @@ public class MaterialInterface extends FrameLayout {
         this.bar.performClickIcon(position);
     }
 
-    public void showSnackBar(String text) {
-        this.bar.showSnackBar(text);
+    public Snackbar showSnackBar(String text) {
+        return this.bar.showSnackBar(text);
     }
-    public void showSnackBar(String text, int duration) {
-        this.bar.showSnackBar(text, duration);
+    public Snackbar showSnackBar(String text, int duration) {
+        return this.bar.showSnackBar(text, duration);
     }
 
     private void navigationClick() {

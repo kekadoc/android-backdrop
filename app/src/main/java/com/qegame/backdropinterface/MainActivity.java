@@ -25,29 +25,10 @@ public class MainActivity extends AppCompatActivity {
         materialInterface = findViewById(R.id.material_interface);
 
         materialInterface.getBar().setConstruction(getFabCenter());
-
         materialInterface.setSubtitle("Subtitle");
 
-        /*materialInterface.removeAllViewInBack();
-        for (int i = 0; i < 10; i++) {
-            materialInterface.addViewToBack(new Button(this));
-        }
-
-        materialInterface.buildFirstIcon(new BottomAppBarCustom.IconSettings() {
-            @Override
-            public Drawable getImage() {
-                return getResources().getDrawable(R.drawable.navigation_icon_close);
-            }
-
-            @Override
-            public View.OnClickListener getClickListener() {
-                return new ToastListener("Icon first clicked!");
-            }
-        });
-
-        materialInterface.setFrontShape(MaterialInterface.FrontShape.ALL_ROUND);*/
+        materialInterface.setFrontShape(MaterialInterface.FrontShape.ALL_ROUND);
         materialInterface.setContentPadding(50, 50, 50, 0);
-
 
         View view = getLayoutInflater().inflate(R.layout.content, materialInterface.getContentContainer(), false);
         materialInterface.setContentView(view);
