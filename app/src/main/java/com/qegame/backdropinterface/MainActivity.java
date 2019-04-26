@@ -170,8 +170,9 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View v) {
-            Log.e(TAG, "onClick: ");
-            materialInterface.getBar().showSnackBar(text);
+            /*Log.e(TAG, "onClick: snack " + materialInterface.getBar().getElevation());
+            Log.e(TAG, "onClick: snack " + materialInterface.getBar().getBottomAppBar().getElevation());
+            Log.e(TAG, "onClick: snack " + materialInterface.getBar().showSnackBar(text).getView().getElevation());*/
         }
     }
     
