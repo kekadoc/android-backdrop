@@ -89,6 +89,7 @@ public class MaterialInterface extends FrameLayout {
         this.back = findViewById(R.id.back);
         this.front = findViewById(R.id.front);
         this.bar = findViewById(R.id.bar);
+        this.bar.getBottomAppBar().setElevation(getResources().getDimension(com.qegame.bottomappbarqe.R.dimen.elevation_bar));
         this.icon_navigation = findViewById(R.id.icon_navigation);
         this.icon_first = findViewById(R.id.icon_first);
         this.icon_second = findViewById(R.id.icon_second);
@@ -285,7 +286,6 @@ public class MaterialInterface extends FrameLayout {
         anim_icon.start();
         this.expanded = false;
     }
-
 
     private Drawable getFrontDrawableRound(FrontShape frontShape) {
         ShapeAppearanceModel shape = new ShapeAppearanceModel();
