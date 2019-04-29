@@ -220,8 +220,11 @@ public class MaterialInterface extends FrameLayout {
     }
 
     public void setContentView(View view) {
-        //this.content.removeAllViews();
+        this.content.removeAllViews();
         this.content.addView(view);
+        if (this.expanded) {
+            hideBack();
+        }
     }
 
     public void setSubtitle(String title) {
