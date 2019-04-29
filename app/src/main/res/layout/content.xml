@@ -8,6 +8,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:paddingBottom="@dimen/height_bottom_app_bar_custom"
         android:orientation="vertical">
 
         <ImageView
