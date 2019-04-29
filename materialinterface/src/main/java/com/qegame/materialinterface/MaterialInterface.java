@@ -31,7 +31,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 public class MaterialInterface extends FrameLayout {
-    private final String TAG = "MaterialInterface-ИНФ";
+    private static final String TAG = "MaterialInterface-TAG";
 
     public enum FrontShape {
         ALL_ROUND,
@@ -155,6 +155,14 @@ public class MaterialInterface extends FrameLayout {
     }
 
     //region Getters/Setters
+
+    public boolean isExpanded() {
+        return expanded;
+    }
+    public void setExpanded(boolean expanded) {
+        if (expanded) showBack();
+        if (!expanded) hideBack();
+    }
 
     public BottomAppBarQe getBar() {
         return bar;

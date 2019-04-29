@@ -110,7 +110,12 @@ public class MainActivity extends AppCompatActivity {
                 return new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        materialInterface.getBar().setConstruction(getFabEnd());
+                        if (materialInterface.isExpanded()) {
+                            materialInterface.setExpanded(false);
+                        } else {
+                            materialInterface.setExpanded(true);
+                        }
+                       // materialInterface.getBar().setConstruction(getFabEnd());
                     }
                 };
             }
