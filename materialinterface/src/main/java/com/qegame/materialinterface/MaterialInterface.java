@@ -334,7 +334,12 @@ public class MaterialInterface extends FrameLayout {
     public void reExpanded() {
         if (isExpanded()) {
             if (this.back_items.getChildCount() == 0) {hideBack(); return;}
-            Anim.animate(front).translationY(front.getTranslationY(), scroll_back.getHeight(), this.durationAnimation, new OvershootInterpolator()).start();
+            QeUtil.doOnMeasureView(this.scroll_back, new QeUtil.Do.WithIt<View>() {
+                @Override
+                public void doWithIt(View it) {
+                    Anim.animate(front).translationY(front.getTranslationY(), scroll_back.getHeight(), MaterialInterface.this.durationAnimation, new OvershootInterpolator()).start();
+                }
+            });
         }
     }
 
