@@ -191,7 +191,7 @@ public class MaterialInterface extends FrameLayout {
         }
     }
 
-    public void addViewToBack(View view) {
+    public void addViewToBack(View view, final boolean reExpanded) {
         int left = (int) getResources().getDimension(R.dimen.padding_left_view_back);
         int top = (int) getResources().getDimension(R.dimen.padding_top_view_back);
         int right = (int) getResources().getDimension(R.dimen.padding_right_view_back);
@@ -202,10 +202,45 @@ public class MaterialInterface extends FrameLayout {
             lp.setMargins(left, top, right, bottom);
             view.setLayoutParams(lp);
         }
-        back_items.addView(view);
+        this.back_items.addView(view);
+        QeUtil.doOnMeasureView(back_items, new QeUtil.Do.WithIt<View>() {
+            @Override
+            public void doWithIt(View it) {
+                if (reExpanded) reExpanded();
+            }
+        });
+
     }
-    public void removeAllViewInBack() {
-        back_items.removeAllViews();
+    public void removeViewInBack(View view, final boolean reExpanded) {
+        this.back_items.removeView(view);
+        QeUtil.doOnMeasureView(back_items, new QeUtil.Do.WithIt<View>() {
+            @Override
+            public void doWithIt(View it) {
+                if (reExpanded) reExpanded();
+            }
+        });
+    }
+    public void removeViewInBack(int position, final boolean reExpanded) {
+        this.back_items.removeViewAt(position);
+        QeUtil.doOnMeasureView(back_items, new QeUtil.Do.WithIt<View>() {
+            @Override
+            public void doWithIt(View it) {
+                if (reExpanded) reExpanded();
+            }
+        });
+    }
+    public void removeAllViewInBack(final boolean reExpanded) {
+        this.back_items.removeAllViews();
+        QeUtil.doOnMeasureView(back_items, new QeUtil.Do.WithIt<View>() {
+            @Override
+            public void doWithIt(View it) {
+                if (reExpanded) reExpanded();
+            }
+        });
+    }
+
+    public LinearLayout getBackViewsContainer() {
+        return back_items;
     }
 
     public void buildFirstIcon(BottomAppBarQe.IconSettings iconSettings) {
@@ -295,6 +330,12 @@ public class MaterialInterface extends FrameLayout {
         Anim.LeaveMoveRotation anim_icon = new Anim.LeaveMoveRotation.Image(icon_navigation, this.durationAnimation, 1, drawable);
         anim_icon.start();
         this.expanded = false;
+    }
+    public void reExpanded() {
+        if (isExpanded()) {
+            if (this.back_items.getChildCount() == 0) {hideBack(); return;}
+            Anim.animate(front).translationY(front.getTranslationY(), scroll_back.getHeight(), this.durationAnimation, new OvershootInterpolator()).start();
+        }
     }
 
     private Drawable getFrontDrawableRound(FrontShape frontShape) {

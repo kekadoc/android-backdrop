@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import com.qegame.animsimple.Anim;
 import com.qegame.bottomappbarqe.BottomAppBarQe;
@@ -32,7 +33,9 @@ public class MainActivity extends AppCompatActivity {
 
         View view = getLayoutInflater().inflate(R.layout.content, materialInterface.getContentContainer(), false);
         materialInterface.setContentView(view);
-        materialInterface.performClickBottomIcon(1);
+//        materialInterface.performClickBottomIcon(1);
+
+        materialInterface.addViewToBack(new Button(MainActivity.this), false);
 
     }
 
@@ -110,11 +113,7 @@ public class MainActivity extends AppCompatActivity {
                 return new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (materialInterface.isExpanded()) {
-                            materialInterface.setExpanded(false);
-                        } else {
-                            materialInterface.setExpanded(true);
-                        }
+                        materialInterface.addViewToBack(new Button(MainActivity.this), true);
                        // materialInterface.getBar().setConstruction(getFabEnd());
                     }
                 };
@@ -135,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public View.OnClickListener getClickListener() {
+                materialInterface.reExpanded();
                 Log.e(TAG, "getClickListener: ");
                 return new ToastListener("icon_0");
             }
@@ -178,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
             /*Log.e(TAG, "onClick: snack " + materialInterface.getBar().getElevation());
             Log.e(TAG, "onClick: snack " + materialInterface.getBar().getBottomAppBar().getElevation());
             Log.e(TAG, "onClick: snack " + materialInterface.getBar().showSnackBar(text).getView().getElevation());*/
+            materialInterface.removeViewInBack(0, true);
         }
     }
     
