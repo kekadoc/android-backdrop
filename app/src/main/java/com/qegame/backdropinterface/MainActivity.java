@@ -36,6 +36,9 @@ public class MainActivity extends AppCompatActivity {
 //        materialInterface.performClickBottomIcon(1);
 
         materialInterface.addViewToBack(new Button(MainActivity.this), false);
+        materialInterface.getBar().showProgressBar();
+        materialInterface.getBar().setProgressPercent(50);
+
 
     }
 
@@ -114,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         materialInterface.addViewToBack(new Button(MainActivity.this), true);
+                        materialInterface.getBar().addProgressPercent(10);
                        // materialInterface.getBar().setConstruction(getFabEnd());
                     }
                 };
