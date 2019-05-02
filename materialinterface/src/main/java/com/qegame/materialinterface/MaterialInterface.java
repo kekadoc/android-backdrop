@@ -172,6 +172,10 @@ public class MaterialInterface extends FrameLayout {
     }
     //endregion
 
+    public void setFabEnabled(boolean enabled) {
+        getBar().getFab().setEnabled(enabled);
+    }
+
     public void setFrontShape(FrontShape frontShape) {
         if (frontShape == FrontShape.ALL_ROUND
                 || frontShape == FrontShape.LEFT_ROUND
