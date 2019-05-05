@@ -14,7 +14,7 @@ import com.qegame.bottomappbarqe.BottomAppBarQe;
 import com.qegame.materialinterface.MaterialInterface;
 
 public class MainActivity extends AppCompatActivity {
-    private final String TAG = "MainActivity-ИНФ";
+    private static final String TAG = "MainActivity-TAG";
 
     MaterialInterface materialInterface;
 
