@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -17,6 +16,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity-TAG";
 
     MaterialInterface materialInterface;
+
+    private boolean horizontal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,14 +32,36 @@ public class MainActivity extends AppCompatActivity {
         materialInterface.setFrontShape(MaterialInterface.FrontShape.ALL_ROUND);
         materialInterface.setContentPadding(50, 50, 50, 0);
 
-        View view = getLayoutInflater().inflate(R.layout.content, materialInterface.getContentContainer(), false);
+        View view = getLayoutInflater().inflate(R.layout.content_v, materialInterface.getContentContainer(), false);
         materialInterface.setContentView(view);
-//        materialInterface.performClickBottomIcon(1);
+
 
         materialInterface.addViewToBack(new Button(MainActivity.this), false);
         materialInterface.getBar().showProgressBar();
         materialInterface.getBar().setProgressPercent(50);
 
+        materialInterface.buildFirstIcon(new BottomAppBarQe.IconSettings() {
+            @Override
+            public Drawable getImage() {
+                return getDrawable(R.drawable.reset);
+            }
+
+            @Override
+            public View.OnClickListener getClickListener() {
+                return new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (horizontal) {
+                            View view = getLayoutInflater().inflate(R.layout.content_v, materialInterface.getContentContainer(), false);
+                            materialInterface.setContentView(view);
+                        } else {
+                            View view = getLayoutInflater().inflate(R.layout.content_h, materialInterface.getContentContainer(), false);
+                            materialInterface.setContentView(view);
+                        }
+                    }
+                };
+            }
+        });
 
     }
 
@@ -54,7 +77,10 @@ public class MainActivity extends AppCompatActivity {
                 return new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        materialInterface.getBar().setConstruction(getFabCenter());
+                        materialInterface.getBar().showProgressBar();
+                        if (materialInterface.getBar().getProgressPercent() >= 90)
+                            materialInterface.getBar().setProgress(0);
+                        materialInterface.getBar().addProgressPercent(10);
                     }
                 };
             }
@@ -69,24 +95,36 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public Drawable getImage() {
-                return getDrawable(R.drawable.navigation_icon_close);
+                return getDrawable(R.drawable.add);
             }
 
             @Override
             public View.OnClickListener getClickListener() {
-                return new ToastListener("icon_0");
+                return new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        materialInterface.addViewToBack(new Button(MainActivity.this), true);
+                        materialInterface.showSnackBar("Button added!");
+                    }
+                };
             }
         };
         BottomAppBarQe.IconSettings icon_1 = new BottomAppBarQe.IconSettings() {
 
             @Override
             public Drawable getImage() {
-                return getDrawable(R.drawable.navigation_icon_close);
+                return getDrawable(R.drawable.sub);
             }
 
             @Override
             public View.OnClickListener getClickListener() {
-                return new ToastListener("icon_1");
+                return new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        materialInterface.removeViewInBack(0, true);
+                        materialInterface.showSnackBar("Button removed!");
+                    }
+                };
             }
         };
         BottomAppBarQe.IconSettings icon_2 = new BottomAppBarQe.IconSettings() {
@@ -98,7 +136,12 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public View.OnClickListener getClickListener() {
-                return new ToastListener("icon_2");
+                return new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        materialInterface.getBar().setConstruction(getFabCenter());
+                    }
+                };
             }
         };
 
@@ -116,9 +159,10 @@ public class MainActivity extends AppCompatActivity {
                 return new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        materialInterface.addViewToBack(new Button(MainActivity.this), true);
+                        materialInterface.getBar().showProgressBar();
+                        if (materialInterface.getBar().getProgressPercent() >= 90)
+                            materialInterface.getBar().setProgress(0);
                         materialInterface.getBar().addProgressPercent(10);
-                       // materialInterface.getBar().setConstruction(getFabEnd());
                     }
                 };
             }
@@ -133,26 +177,36 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public Drawable getImage() {
-                return getDrawable(R.drawable.navigation_icon_close);
+                return getDrawable(R.drawable.add);
             }
 
             @Override
             public View.OnClickListener getClickListener() {
-                materialInterface.reExpanded();
-                Log.e(TAG, "getClickListener: ");
-                return new ToastListener("icon_0");
+                return new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        materialInterface.addViewToBack(new Button(MainActivity.this), true);
+                        materialInterface.showSnackBar("Button added!");
+                    }
+                };
             }
         };
         BottomAppBarQe.IconSettings icon_1 = new BottomAppBarQe.IconSettings() {
 
             @Override
             public Drawable getImage() {
-                return getDrawable(R.drawable.navigation_icon_close);
+                return getDrawable(R.drawable.sub);
             }
 
             @Override
             public View.OnClickListener getClickListener() {
-                return new ToastListener("icon_1");
+                return new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        materialInterface.removeViewInBack(0, true);
+                        materialInterface.showSnackBar("Button removed!");
+                    }
+                };
             }
         };
         BottomAppBarQe.IconSettings icon_2 = new BottomAppBarQe.IconSettings() {
@@ -164,26 +218,15 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public View.OnClickListener getClickListener() {
-                return new ToastListener("icon_2");
+                return new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        materialInterface.getBar().setConstruction(getFabEnd());
+                    }
+                };
             }
         };
 
         return new BottomAppBarQe.Construction.FABCenter(fab, new BottomAppBarQe.IconSettings[]{icon_0, icon_1}, new BottomAppBarQe.IconSettings[]{icon_2});
     }
-
-    private class ToastListener implements View.OnClickListener {
-        String text;
-        public ToastListener(String text) {
-            this.text = text;
-        }
-
-        @Override
-        public void onClick(View v) {
-            /*Log.e(TAG, "onClick: snack " + materialInterface.getBar().getElevation());
-            Log.e(TAG, "onClick: snack " + materialInterface.getBar().getBottomAppBar().getElevation());
-            Log.e(TAG, "onClick: snack " + materialInterface.getBar().showSnackBar(text).getView().getElevation());*/
-            materialInterface.removeViewInBack(0, true);
-        }
-    }
-    
 }

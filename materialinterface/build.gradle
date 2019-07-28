@@ -22,6 +22,11 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
 }
 
 dependencies {
@@ -36,8 +41,8 @@ dependencies {
 
     implementation 'com.github.qeGame:AnimSimple:0.6.7'
     implementation 'com.github.qeGame:QeShaper:0.1.2'
-    api 'com.github.qeGame:BottomAppBarCustom:0.4.2'
-    implementation 'com.github.qeGame:qeUtilLib:0.2.12'
+    api 'com.github.qeGame:BottomAppBarCustom:0.4.3'
+    implementation 'com.github.qeGame:qeUtilLib:0.4.0'
 
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 }

@@ -225,6 +225,7 @@ public class MaterialInterface extends FrameLayout {
         });
     }
     public void removeViewInBack(int position, final boolean reExpanded) {
+        if (this.back_items.getChildCount() == 0) return;
         this.back_items.removeViewAt(position);
         QeUtil.doOnMeasureView(back_items, new QeUtil.Do.WithIt<View>() {
             @Override
