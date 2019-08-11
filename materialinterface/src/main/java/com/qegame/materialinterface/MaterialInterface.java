@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,11 @@ import com.google.android.material.shape.MaterialShapeDrawable;
 import com.google.android.material.shape.RoundedCornerTreatment;
 import com.google.android.material.shape.ShapeAppearanceModel;
 import com.google.android.material.snackbar.Snackbar;
-import com.qegame.animsimple.Anim;
+import com.qegame.animsimple.anim.Anim;
+import com.qegame.animsimple.anim.AnimView;
+import com.qegame.animsimple.anim.LeaveMoveRotation;
+import com.qegame.animsimple.params.AnimParams;
+import com.qegame.animsimple.path.TranslationY;
 import com.qegame.bottomappbarqe.BottomAppBarQe;
 import com.qegame.qeshaper.QeShaper;
 import com.qegame.qeutil.QeUtil;
@@ -132,6 +135,7 @@ public class MaterialInterface extends FrameLayout {
         buildSecondIcon(null);
 
     }
+
     private void initColors(Context context) {
         TypedValue typedValue = new TypedValue();
 
@@ -176,7 +180,7 @@ public class MaterialInterface extends FrameLayout {
         getBar().getFab().setEnabled(enabled);
     }
 
-    public void setFrontShape(FrontShape frontShape) {
+    public void setFrontShape(@NonNull FrontShape frontShape) {
         if (frontShape == FrontShape.ALL_ROUND
                 || frontShape == FrontShape.LEFT_ROUND
                 ||frontShape == FrontShape.RIGHT_ROUND)
@@ -195,7 +199,7 @@ public class MaterialInterface extends FrameLayout {
         }
     }
 
-    public void addViewToBack(View view, final boolean reExpanded) {
+    public void addViewToBack(@NonNull View view, final boolean reExpanded) {
         int left = (int) getResources().getDimension(R.dimen.padding_left_view_back);
         int top = (int) getResources().getDimension(R.dimen.padding_top_view_back);
         int right = (int) getResources().getDimension(R.dimen.padding_right_view_back);
@@ -234,7 +238,7 @@ public class MaterialInterface extends FrameLayout {
             }
         });
     }
-    public void removeAllViewInBack(final boolean reExpanded) {
+    public void removeAllViewInBack(boolean reExpanded) {
         this.back_items.removeAllViews();
         QeUtil.doOnMeasureView(back_items, new QeUtil.Do.WithIt<View>() {
             @Override
@@ -244,11 +248,12 @@ public class MaterialInterface extends FrameLayout {
         });
     }
 
+    @NonNull
     public LinearLayout getBackViewsContainer() {
         return back_items;
     }
 
-    public void buildFirstIcon(BottomAppBarQe.IconSettings iconSettings) {
+    public void buildFirstIcon(@Nullable BottomAppBarQe.IconSettings iconSettings) {
         if (iconSettings == null) {
             icon_first.setVisibility(GONE);
         } else {
@@ -257,7 +262,7 @@ public class MaterialInterface extends FrameLayout {
             icon_first.setOnClickListener(iconSettings.getClickListener());
         }
     }
-    public void buildSecondIcon(BottomAppBarQe.IconSettings iconSettings) {
+    public void buildSecondIcon(@Nullable BottomAppBarQe.IconSettings iconSettings) {
         if (iconSettings == null) {
             icon_second.setVisibility(GONE);
         } else {
@@ -270,18 +275,13 @@ public class MaterialInterface extends FrameLayout {
     public void setContentView(View view) {
         this.content.removeAllViews();
         this.content.addView(view);
-        if (this.expanded) {
-            hideBack();
-        }
+        if (this.expanded) hideBack();
     }
 
     public void setSubtitle(String title) {
         this.subtitle.setText(title);
-        if (title == null || title == "") {
-            this.subtitle.setVisibility(GONE);
-        } else {
-            this.subtitle.setVisibility(VISIBLE);
-        }
+        if (title == null || title.equals("")) this.subtitle.setVisibility(GONE);
+        else this.subtitle.setVisibility(VISIBLE);
     }
 
     public void setTitle(String title) {
@@ -311,29 +311,22 @@ public class MaterialInterface extends FrameLayout {
 
     private void navigationClick() {
         if (back_items.getChildCount() == 0) {
-            Anim anim_icon = new Anim(icon_navigation);
-            anim_icon.translationY(-30, 0, 1000, new BounceInterpolator());
-            anim_icon.start();
+            TranslationY.animate(new AnimParams.OfFloat<>(icon_navigation, -30f, 0f, 1000, new BounceInterpolator())).start();
             return;
         }
-        if (this.expanded) {
-            hideBack();
-        } else {
-            showBack();
-        }
+        if (this.expanded) hideBack();
+        else showBack();
     }
     private void showBack() {
-        Anim.animate(front).translationY(0, scroll_back.getHeight(), this.durationAnimation, new OvershootInterpolator()).start();
+        TranslationY.animate(new AnimParams.OfFloat<>(front, 0f, (float) scroll_back.getHeight(), this.durationAnimation, new OvershootInterpolator())).start();
         Drawable drawable = getResources().getDrawable(R.drawable.navigation_icon_close);
-        Anim.LeaveMoveRotation anim_icon = new Anim.LeaveMoveRotation.Image(icon_navigation, this.durationAnimation, 1, drawable);
-        anim_icon.start();
+        LeaveMoveRotation.Image.animate(icon_navigation, 1, this.durationAnimation, drawable).start();
         this.expanded = true;
     }
     private void hideBack() {
-        Anim.animate(front).translationY(front.getTranslationY(), 0, this.durationAnimation, new AnticipateInterpolator()).start();
+        TranslationY.animate(new AnimParams.OfFloat<>(front, front.getTranslationY(), 0f, this.durationAnimation, new AnticipateInterpolator())).start();
         Drawable drawable = getResources().getDrawable(R.drawable.navigation_icon);
-        Anim.LeaveMoveRotation anim_icon = new Anim.LeaveMoveRotation.Image(icon_navigation, this.durationAnimation, 1, drawable);
-        anim_icon.start();
+        LeaveMoveRotation.Image.animate(icon_navigation, 1, this.durationAnimation, drawable).start();
         this.expanded = false;
     }
     public void reExpanded() {
@@ -342,7 +335,7 @@ public class MaterialInterface extends FrameLayout {
             QeUtil.doOnMeasureView(this.scroll_back, new QeUtil.Do.WithIt<View>() {
                 @Override
                 public void doWithIt(View it) {
-                    Anim.animate(front).translationY(front.getTranslationY(), scroll_back.getHeight(), MaterialInterface.this.durationAnimation, new OvershootInterpolator()).start();
+                    TranslationY.animate(new AnimParams.OfFloat<>(front, front.getTranslationY(), (float) scroll_back.getHeight(), durationAnimation, new OvershootInterpolator())).start();
                 }
             });
         }

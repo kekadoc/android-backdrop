@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.qegame.animsimple.Anim;
 import com.qegame.bottomappbarqe.BottomAppBarQe;
 import com.qegame.materialinterface.MaterialInterface;
 
@@ -83,11 +82,6 @@ public class MainActivity extends AppCompatActivity {
                         materialInterface.getBar().addProgressPercent(10);
                     }
                 };
-            }
-
-            @Override
-            public Anim getAnimation(Anim animDefault) {
-                return animDefault;
             }
         };
 
@@ -165,11 +159,6 @@ public class MainActivity extends AppCompatActivity {
                         materialInterface.getBar().addProgressPercent(10);
                     }
                 };
-            }
-
-            @Override
-            public Anim getAnimation(Anim animDefault) {
-                return animDefault;
             }
         };
 
