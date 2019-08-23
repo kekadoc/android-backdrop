@@ -26,7 +26,8 @@ import com.qegame.animsimple.path.TranslationY;
 import com.qegame.animsimple.path.params.AnimParams;
 import com.qegame.bottomappbarqe.BottomAppBarQe;
 import com.qegame.qeshaper.QeShaper;
-import com.qegame.qeutil.QeUtil;
+import com.qegame.qeutil.androids.QeViews;
+import com.qegame.qeutil.doing.Do;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -80,6 +81,7 @@ public class MaterialInterface extends FrameLayout {
         super(context, attrs, defStyleAttr);
         init(context, attrs);
     }
+
     private void init(@NonNull Context context, @Nullable AttributeSet attrs) {
         inflate(context, R.layout.layout, this);
 
@@ -116,7 +118,7 @@ public class MaterialInterface extends FrameLayout {
         int heightSubtitle = (int) getResources().getDimension(R.dimen.height_subtitle);
         int frontBottomMargin = heightBABC + heightSubtitle;
 
-        QeUtil.setMargin(this.scroll_back, 0, 0, 0, frontBottomMargin);
+        QeViews.setMargins(this.scroll_back, 0, 0, 0, frontBottomMargin);
 
         this.title.setTextColor(this.colorOnPrimary);
         this.subtitle.setTextColor(this.colorOnSurface);
@@ -209,9 +211,9 @@ public class MaterialInterface extends FrameLayout {
             view.setLayoutParams(lp);
         }
         this.back_items.addView(view);
-        QeUtil.doOnMeasureView(back_items, new QeUtil.Do.WithIt<View>() {
+        QeViews.doOnMeasureView(back_items, new Do.With<LinearLayout>() {
             @Override
-            public void doWithIt(View it) {
+            public void work(LinearLayout with) {
                 if (reExpanded) reExpanded();
             }
         });
@@ -219,9 +221,9 @@ public class MaterialInterface extends FrameLayout {
     }
     public void removeViewInBack(View view, final boolean reExpanded) {
         this.back_items.removeView(view);
-        QeUtil.doOnMeasureView(back_items, new QeUtil.Do.WithIt<View>() {
+        QeViews.doOnMeasureView(back_items, new Do.With<LinearLayout>() {
             @Override
-            public void doWithIt(View it) {
+            public void work(LinearLayout with) {
                 if (reExpanded) reExpanded();
             }
         });
@@ -229,18 +231,18 @@ public class MaterialInterface extends FrameLayout {
     public void removeViewInBack(int position, final boolean reExpanded) {
         if (this.back_items.getChildCount() == 0) return;
         this.back_items.removeViewAt(position);
-        QeUtil.doOnMeasureView(back_items, new QeUtil.Do.WithIt<View>() {
+        QeViews.doOnMeasureView(back_items, new Do.With<LinearLayout>() {
             @Override
-            public void doWithIt(View it) {
+            public void work(LinearLayout with) {
                 if (reExpanded) reExpanded();
             }
         });
     }
     public void removeAllViewInBack(boolean reExpanded) {
         this.back_items.removeAllViews();
-        QeUtil.doOnMeasureView(back_items, new QeUtil.Do.WithIt<View>() {
+        QeViews.doOnMeasureView(back_items, new Do.With<LinearLayout>() {
             @Override
-            public void doWithIt(View it) {
+            public void work(LinearLayout with) {
                 if (reExpanded) reExpanded();
             }
         });
@@ -330,10 +332,16 @@ public class MaterialInterface extends FrameLayout {
     public void reExpanded() {
         if (isExpanded()) {
             if (this.back_items.getChildCount() == 0) {hideBack(); return;}
-            QeUtil.doOnMeasureView(this.scroll_back, new QeUtil.Do.WithIt<View>() {
+            QeViews.doOnMeasureView(this.scroll_back, new Do.With<ScrollView>() {
                 @Override
-                public void doWithIt(View it) {
-                    TranslationY.animate(new AnimParams.OfFloat<>(front, front.getTranslationY(), (float) scroll_back.getHeight(), durationAnimation, new OvershootInterpolator())).start();
+                public void work(ScrollView with) {
+                    TranslationY.animate(new AnimParams.OfFloat<>(
+                            front,
+                            front.getTranslationY(),
+                            (float) scroll_back.getHeight(),
+                            durationAnimation,
+                            new OvershootInterpolator())
+                    ).start();
                 }
             });
         }
