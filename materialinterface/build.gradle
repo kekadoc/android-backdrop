@@ -39,7 +39,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.1.0-alpha09'
 
     implementation 'com.github.qeGame:QeShaper:0.1.2'
-    api 'com.github.qeGame:BottomAppBarCustom:0.4.6-alpha.2'
+    api 'com.github.qeGame:BottomAppBarCustom:0.4.6-alpha.3'
 
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 }
