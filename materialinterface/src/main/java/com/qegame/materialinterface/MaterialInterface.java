@@ -186,7 +186,7 @@ public class MaterialInterface extends FrameLayout {
                 ||frontShape == FrontShape.RIGHT_ROUND)
         {
             this.front.setBackground(getFrontDrawableRound(frontShape));
-            this.subtitle.setBackground(QeShaper.setupRipple(this.colorRipple, getFrontDrawableRound(frontShape)));
+            this.subtitle.setBackground(QeShaper.injectRipple(this.colorRipple, getFrontDrawableRound(frontShape)));
         }
 
         if (frontShape == FrontShape.ALL_CUT
@@ -195,7 +195,7 @@ public class MaterialInterface extends FrameLayout {
         {
 
             this.front.setBackground(getFrontDrawableCut(frontShape));
-            this.subtitle.setBackground(QeShaper.setupRipple(this.colorRipple, getFrontDrawableCut(frontShape)));
+            this.subtitle.setBackground(QeShaper.injectRipple(this.colorRipple, getFrontDrawableCut(frontShape)));
         }
     }
 
