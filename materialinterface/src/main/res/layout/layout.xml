@@ -62,17 +62,17 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        <ScrollView
-            android:id="@+id/scroll_back"
+        <ScrollView android:id="@+id/scroll_back"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:id="@+id/back_items"
+            <LinearLayout android:id="@+id/back_items"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:orientation="vertical"/>
+                android:orientation="vertical"
+                android:clipChildren="false"
+                android:clipToPadding="false"/>
         </ScrollView>
 
     </LinearLayout>
