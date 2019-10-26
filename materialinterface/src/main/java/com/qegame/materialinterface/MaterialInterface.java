@@ -156,6 +156,8 @@ public class MaterialInterface extends FrameLayout {
         this.colorSurface = a.getColor(4, 0);
         this.colorOnSurface = a.getColor(5, 0);
         this.colorRipple = a.getColor(6, 0);
+
+        a.recycle();
     }
 
     //region Getters/Setters
@@ -302,11 +304,11 @@ public class MaterialInterface extends FrameLayout {
         this.bar.performClickIcon(position);
     }
 
-    public Snackbar showSnackBar(String text) {
-        return this.bar.showSnackBar(text);
+    public BottomAppBarQe.Snack snack() {
+        return this.bar.snack();
     }
-    public Snackbar showSnackBar(String text, int duration) {
-        return this.bar.showSnackBar(text, duration);
+    public BottomAppBarQe.Progress progress() {
+        return this.bar.progress();
     }
 
     private void navigationClick() {

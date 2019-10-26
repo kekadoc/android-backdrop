@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.android.material.button.MaterialButton;
 import com.qegame.bottomappbarqe.BottomAppBarQe;
 import com.qegame.materialinterface.MaterialInterface;
 
@@ -36,8 +37,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         materialInterface.addViewToBack(new Button(MainActivity.this), false);
-        materialInterface.getBar().showProgressBar();
-        materialInterface.getBar().setProgressPercent(50);
+        materialInterface.getBar().snack().show("Snack");
+        materialInterface.getBar().progress().set(50);
 
         materialInterface.buildFirstIcon(new BottomAppBarQe.IconSettings() {
             @Override
@@ -76,10 +77,10 @@ public class MainActivity extends AppCompatActivity {
                 return new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        materialInterface.getBar().showProgressBar();
-                        if (materialInterface.getBar().getProgressPercent() >= 90)
-                            materialInterface.getBar().setProgress(0);
-                        materialInterface.getBar().addProgressPercent(10);
+                        materialInterface.getBar().snack().show("");
+                        if (materialInterface.getBar().progress().getValue() >= 90)
+                            materialInterface.getBar().progress().set(0);
+                        materialInterface.getBar().progress().add(10);
                     }
                 };
             }
@@ -98,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         materialInterface.addViewToBack(new Button(MainActivity.this), true);
-                        materialInterface.showSnackBar("Button added!");
+                        materialInterface.snack().show("Button added!");
                     }
                 };
             }
@@ -116,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         materialInterface.removeViewInBack(0, true);
-                        materialInterface.showSnackBar("Button removed!");
+                        materialInterface.snack().show("Button removed!");
                     }
                 };
             }
@@ -153,10 +154,10 @@ public class MainActivity extends AppCompatActivity {
                 return new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        materialInterface.getBar().showProgressBar();
-                        if (materialInterface.getBar().getProgressPercent() >= 90)
-                            materialInterface.getBar().setProgress(0);
-                        materialInterface.getBar().addProgressPercent(10);
+                        materialInterface.getBar().snack().show("");
+                        if (materialInterface.getBar().progress().getValue() >= 90)
+                            materialInterface.getBar().progress().set(0);
+                        materialInterface.getBar().progress().add(10);
                     }
                 };
             }
@@ -175,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         materialInterface.addViewToBack(new Button(MainActivity.this), true);
-                        materialInterface.showSnackBar("Button added!");
+                        materialInterface.snack().show("Button added!");
                     }
                 };
             }
@@ -193,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         materialInterface.removeViewInBack(0, true);
-                        materialInterface.showSnackBar("Button removed!");
+                        materialInterface.snack().show("Button removed!");
                     }
                 };
             }

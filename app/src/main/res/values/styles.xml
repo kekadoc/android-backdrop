@@ -3,7 +3,8 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">#DC143C</item>
+        <item name="colorPrimary">#AC77F4</item>
+        <item name="colorPrimarySurface">#ff0F4F0F</item>
         <item name="colorOnPrimary">#FFFFE0</item>
 
         <item name="colorSurface">#FFEFD5</item>
