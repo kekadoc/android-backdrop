@@ -350,7 +350,7 @@ public class MaterialInterface extends FrameLayout {
     }
 
     private Drawable getFrontDrawableRound(FrontShape frontShape) {
-        ShapeAppearanceModel shape = new ShapeAppearanceModel();
+        ShapeAppearanceModel.Builder shape = new ShapeAppearanceModel.Builder();
         float corner = getContext().getResources().getDimension(R.dimen.corner_round);
 
         if (frontShape == FrontShape.ALL_ROUND) {
@@ -364,12 +364,12 @@ public class MaterialInterface extends FrameLayout {
             shape.setTopRightCorner(new RoundedCornerTreatment(corner));
         }
 
-        MaterialShapeDrawable drawable = new MaterialShapeDrawable(shape);
+        MaterialShapeDrawable drawable = new MaterialShapeDrawable(shape.build());
         drawable.setTint(colorSurface);
         return drawable;
     }
     private Drawable getFrontDrawableCut(FrontShape frontShape) {
-        ShapeAppearanceModel shape = new ShapeAppearanceModel();
+        ShapeAppearanceModel.Builder shape = new ShapeAppearanceModel.Builder();
         float corner = getContext().getResources().getDimension(R.dimen.corner_cut);
 
         if (frontShape == FrontShape.ALL_CUT) {
@@ -383,7 +383,7 @@ public class MaterialInterface extends FrameLayout {
             shape.setTopRightCorner(new CutCornerTreatment(corner));
         }
 
-        MaterialShapeDrawable drawable = new MaterialShapeDrawable(shape);
+        MaterialShapeDrawable drawable = new MaterialShapeDrawable(shape.build());
         drawable.setTint(colorSurface);
         return drawable;
     }
