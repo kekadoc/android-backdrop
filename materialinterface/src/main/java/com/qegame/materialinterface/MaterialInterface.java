@@ -81,6 +81,9 @@ public class MaterialInterface extends FrameLayout {
         super(context, attrs, defStyleAttr);
         init(context, attrs);
     }
+    public MaterialInterface(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+    }
 
     private void init(@NonNull Context context, @Nullable AttributeSet attrs) {
         inflate(context, R.layout.layout, this);
@@ -304,11 +307,31 @@ public class MaterialInterface extends FrameLayout {
         this.bar.performClickIcon(position);
     }
 
+    @NonNull
     public BottomAppBarQe.Snack snack() {
         return this.bar.snack();
     }
+    @NonNull
     public BottomAppBarQe.Progress progress() {
         return this.bar.progress();
+    }
+
+    public void reExpanded() {
+        if (isExpanded()) {
+            if (this.back_items.getChildCount() == 0) {hideBack(); return;}
+            QeViews.doOnMeasureView(this.scroll_back, new Do.With<ScrollView>() {
+                @Override
+                public void work(ScrollView with) {
+                    TranslationY.animate(new AnimParams.OfFloat<>(
+                            front,
+                            front.getTranslationY(),
+                            (float) scroll_back.getHeight(),
+                            durationAnimation,
+                            new OvershootInterpolator())
+                    ).start();
+                }
+            });
+        }
     }
 
     private void navigationClick() {
@@ -331,37 +354,23 @@ public class MaterialInterface extends FrameLayout {
         LeaveMoveRotation.Image.animate(icon_navigation, 1, this.durationAnimation, drawable).start();
         this.expanded = false;
     }
-    public void reExpanded() {
-        if (isExpanded()) {
-            if (this.back_items.getChildCount() == 0) {hideBack(); return;}
-            QeViews.doOnMeasureView(this.scroll_back, new Do.With<ScrollView>() {
-                @Override
-                public void work(ScrollView with) {
-                    TranslationY.animate(new AnimParams.OfFloat<>(
-                            front,
-                            front.getTranslationY(),
-                            (float) scroll_back.getHeight(),
-                            durationAnimation,
-                            new OvershootInterpolator())
-                    ).start();
-                }
-            });
-        }
-    }
 
     private Drawable getFrontDrawableRound(FrontShape frontShape) {
         ShapeAppearanceModel.Builder shape = new ShapeAppearanceModel.Builder();
         float corner = getContext().getResources().getDimension(R.dimen.corner_round);
 
+        shape.setTopLeftCornerSize(corner);
+        shape.setTopRightCornerSize(corner);
+
         if (frontShape == FrontShape.ALL_ROUND) {
-            shape.setTopLeftCorner(new RoundedCornerTreatment(corner));
-            shape.setTopRightCorner(new RoundedCornerTreatment(corner));
+            shape.setTopLeftCorner(new RoundedCornerTreatment());
+            shape.setTopRightCorner(new RoundedCornerTreatment());
         }
         if (frontShape == FrontShape.LEFT_ROUND) {
-            shape.setTopLeftCorner(new RoundedCornerTreatment(corner));
+            shape.setTopLeftCorner(new RoundedCornerTreatment());
         }
         if (frontShape == FrontShape.RIGHT_ROUND) {
-            shape.setTopRightCorner(new RoundedCornerTreatment(corner));
+            shape.setTopRightCorner(new RoundedCornerTreatment());
         }
 
         MaterialShapeDrawable drawable = new MaterialShapeDrawable(shape.build());
@@ -372,16 +381,16 @@ public class MaterialInterface extends FrameLayout {
         ShapeAppearanceModel.Builder shape = new ShapeAppearanceModel.Builder();
         float corner = getContext().getResources().getDimension(R.dimen.corner_cut);
 
+        shape.setTopLeftCornerSize(corner);
+        shape.setTopRightCornerSize(corner);
+
         if (frontShape == FrontShape.ALL_CUT) {
-            shape.setTopLeftCorner(new CutCornerTreatment(corner));
-            shape.setTopRightCorner(new CutCornerTreatment(corner));
+            shape.setTopLeftCorner(new CutCornerTreatment());
+            shape.setTopRightCorner(new CutCornerTreatment());
         }
-        if (frontShape == FrontShape.LEFT_CUT) {
-            shape.setTopLeftCorner(new CutCornerTreatment(corner));
-        }
-        if (frontShape == FrontShape.RIGHT_CUT) {
-            shape.setTopRightCorner(new CutCornerTreatment(corner));
-        }
+        if (frontShape == FrontShape.LEFT_CUT) shape.setTopLeftCorner(new CutCornerTreatment());
+        if (frontShape == FrontShape.RIGHT_CUT) shape.setTopRightCorner(new CutCornerTreatment());
+
 
         MaterialShapeDrawable drawable = new MaterialShapeDrawable(shape.build());
         drawable.setTint(colorSurface);
