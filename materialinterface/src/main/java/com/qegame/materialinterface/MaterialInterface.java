@@ -26,6 +26,7 @@ import com.qegame.animsimple.path.TranslationY;
 import com.qegame.animsimple.path.params.AnimParams;
 import com.qegame.bottomappbarqe.BottomAppBarQe;
 import com.qegame.qeshaper.QeShaper;
+import com.qegame.qeutil.androids.QeAndroid;
 import com.qegame.qeutil.androids.QeViews;
 import com.qegame.qeutil.doing.Do;
 
@@ -55,6 +56,7 @@ public class MaterialInterface extends FrameLayout {
     private TextView subtitle;
     private LinearLayout back_items;
     private ViewGroup content;
+    private ViewGroup content_shutter;
     private ScrollView scroll_back;
 
     private int colorPrimary;
@@ -103,7 +105,10 @@ public class MaterialInterface extends FrameLayout {
         this.container_title = findViewById(R.id.container_title);
         this.subtitle = findViewById(R.id.subtitle);
         this.content = findViewById(R.id.content);
+        this.content_shutter = findViewById(R.id.content_shutter);
         this.scroll_back = findViewById(R.id.scroll_back);
+
+        setupBackItemsPadding((int) QeAndroid.dp(context, 8));
 
         this.subtitle.setOnClickListener(new OnClickListener() {
             @Override
@@ -173,13 +178,30 @@ public class MaterialInterface extends FrameLayout {
         if (!expanded) hideBack();
     }
 
+    @NonNull
     public BottomAppBarQe getBar() {
         return bar;
     }
+    @NonNull
     public ViewGroup getContentContainer() {
         return this.content;
     }
+    @NonNull
+    public ViewGroup getContentShutter() {
+        return content_shutter;
+    }
+
     //endregion
+
+    public void setupBackItemsPadding(int padding) {
+
+        back_items.setPadding(
+                back_items.getPaddingLeft(),
+                back_items.getPaddingTop(),
+                back_items.getPaddingRight(),
+                padding
+        );
+    }
 
     public void setFabEnabled(boolean enabled) {
         getBar().getFab().setEnabled(enabled);

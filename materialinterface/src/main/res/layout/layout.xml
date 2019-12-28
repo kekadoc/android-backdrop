@@ -73,6 +73,7 @@
                 android:orientation="vertical"
                 android:clipChildren="false"
                 android:clipToPadding="false"/>
+
         </ScrollView>
 
     </LinearLayout>
@@ -90,22 +91,33 @@
             android:layout_height="@dimen/height_subtitle"
             android:clickable="true"
             android:focusable="true"
-            android:background="?android:attr/selectableItemBackground"
-            android:paddingLeft="@dimen/padding_left_subtitle"
+            android:paddingStart="@dimen/padding_left_subtitle"
             android:paddingTop="@dimen/padding_top_subtitle"
-            android:paddingRight="@dimen/padding_right_subtitle"
+            android:paddingEnd="@dimen/padding_right_subtitle"
             android:paddingBottom="@dimen/padding_bottom_subtitle"
             android:text="Subtitle"
-            android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle" />
+            android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"/>
 
         <FrameLayout
-            android:id="@+id/content"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:elevation="1dp">
+            android:layout_height="match_parent">
 
+            <FrameLayout
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:elevation="1dp" />
+
+            <FrameLayout
+                android:id="@+id/content_shutter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:elevation="2dp"
+                tools:visibility="invisible" />
 
         </FrameLayout>
+
+
     </LinearLayout>
 
     <com.qegame.bottomappbarqe.BottomAppBarQe
