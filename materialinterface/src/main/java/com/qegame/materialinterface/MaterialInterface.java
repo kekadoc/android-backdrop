@@ -323,6 +323,7 @@ public class MaterialInterface extends FrameLayout {
 
     public void setContentPadding(int left, int top, int right, int bottom) {
         this.content.setPadding(left, top, right, bottom);
+        this.content_shutter.setPadding(left, top, right, bottom);
     }
 
     public void performClickBottomIcon(int position) {
@@ -418,4 +419,5 @@ public class MaterialInterface extends FrameLayout {
         drawable.setTint(colorSurface);
         return drawable;
     }
+
 }
