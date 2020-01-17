@@ -2,6 +2,7 @@ package com.qegame.materialinterface;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -212,17 +213,21 @@ public class MaterialInterface extends FrameLayout {
                 || frontShape == FrontShape.LEFT_ROUND
                 ||frontShape == FrontShape.RIGHT_ROUND)
         {
-            this.front.setBackground(getFrontDrawableRound(frontShape));
             this.subtitle.setBackground(QeShaper.injectRipple(this.colorRipple, getFrontDrawableRound(frontShape)));
+            this.front.setBackground(getFrontDrawableRound(frontShape));
+
+            this.content.setBackground(getFrontDrawableRound(frontShape, Color.TRANSPARENT));
+            this.content_shutter.setBackground(getFrontDrawableRound(frontShape, Color.TRANSPARENT));
         }
 
         if (frontShape == FrontShape.ALL_CUT
                 || frontShape == FrontShape.LEFT_CUT
                 ||frontShape == FrontShape.RIGHT_CUT)
         {
-
             this.front.setBackground(getFrontDrawableCut(frontShape));
             this.subtitle.setBackground(QeShaper.injectRipple(this.colorRipple, getFrontDrawableCut(frontShape)));
+            this.content.setBackground(getFrontDrawableCut(frontShape, Color.TRANSPARENT));
+            this.content_shutter.setBackground(getFrontDrawableCut(frontShape, Color.TRANSPARENT));
         }
     }
 
@@ -378,7 +383,7 @@ public class MaterialInterface extends FrameLayout {
         this.expanded = false;
     }
 
-    private Drawable getFrontDrawableRound(FrontShape frontShape) {
+    private Drawable getFrontDrawableRound(FrontShape frontShape, int color) {
         ShapeAppearanceModel.Builder shape = new ShapeAppearanceModel.Builder();
         float corner = getContext().getResources().getDimension(R.dimen.corner_round);
 
@@ -397,10 +402,13 @@ public class MaterialInterface extends FrameLayout {
         }
 
         MaterialShapeDrawable drawable = new MaterialShapeDrawable(shape.build());
-        drawable.setTint(colorSurface);
+        drawable.setTint(color);
         return drawable;
     }
-    private Drawable getFrontDrawableCut(FrontShape frontShape) {
+    private Drawable getFrontDrawableRound(FrontShape frontShape) {
+        return getFrontDrawableRound(frontShape, colorSurface);
+    }
+    private Drawable getFrontDrawableCut(FrontShape frontShape, int color) {
         ShapeAppearanceModel.Builder shape = new ShapeAppearanceModel.Builder();
         float corner = getContext().getResources().getDimension(R.dimen.corner_cut);
 
@@ -416,8 +424,11 @@ public class MaterialInterface extends FrameLayout {
 
 
         MaterialShapeDrawable drawable = new MaterialShapeDrawable(shape.build());
-        drawable.setTint(colorSurface);
+        drawable.setTint(color);
         return drawable;
+    }
+    private Drawable getFrontDrawableCut(FrontShape frontShape) {
+        return getFrontDrawableCut(frontShape, colorSurface);
     }
 
 }

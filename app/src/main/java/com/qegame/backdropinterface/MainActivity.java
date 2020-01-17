@@ -219,4 +219,5 @@ public class MainActivity extends AppCompatActivity {
 
         return new BottomAppBarQe.Construction.FABCenter(fab, new BottomAppBarQe.IconSettings[]{icon_0, icon_1}, new BottomAppBarQe.IconSettings[]{icon_2});
     }
+
 }
