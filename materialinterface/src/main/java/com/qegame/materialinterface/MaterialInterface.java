@@ -215,9 +215,6 @@ public class MaterialInterface extends FrameLayout {
         {
             this.subtitle.setBackground(QeShaper.injectRipple(this.colorRipple, getFrontDrawableRound(frontShape)));
             this.front.setBackground(getFrontDrawableRound(frontShape));
-
-            this.content.setBackground(getFrontDrawableRound(frontShape, Color.TRANSPARENT));
-            this.content_shutter.setBackground(getFrontDrawableRound(frontShape, Color.TRANSPARENT));
         }
 
         if (frontShape == FrontShape.ALL_CUT
@@ -226,8 +223,6 @@ public class MaterialInterface extends FrameLayout {
         {
             this.front.setBackground(getFrontDrawableCut(frontShape));
             this.subtitle.setBackground(QeShaper.injectRipple(this.colorRipple, getFrontDrawableCut(frontShape)));
-            this.content.setBackground(getFrontDrawableCut(frontShape, Color.TRANSPARENT));
-            this.content_shutter.setBackground(getFrontDrawableCut(frontShape, Color.TRANSPARENT));
         }
     }
 
@@ -327,7 +322,9 @@ public class MaterialInterface extends FrameLayout {
     }
 
     public void setContentPadding(int left, int top, int right, int bottom) {
-        this.content.setPadding(left, top, right, bottom);
+        this.content_shutter.setPadding(left, top, right, bottom);
+    }
+    public void setContentShutterPadding(int left, int top, int right, int bottom) {
         this.content_shutter.setPadding(left, top, right, bottom);
     }
 
