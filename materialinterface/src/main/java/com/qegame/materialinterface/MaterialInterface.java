@@ -224,7 +224,7 @@ public class MaterialInterface extends FrameLayout {
         setRippleSubtitleColor(colorRipple);
         setBackColor(colorBack, colorTitle);
         this.bar.setColorPanel(colorPanel, colorBottomSheet);
-        this.bar.progress().setColor(colorFab);
+        this.bar.setFabColor(colorFab);
         this.bar.progress().setColor(colorFabProgress);
         this.bar.snack().setColorBody(colorSnackBody);
         this.bar.snack().setColorText(colorSnackText);
