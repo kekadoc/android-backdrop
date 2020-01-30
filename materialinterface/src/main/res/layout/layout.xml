@@ -118,12 +118,19 @@
 
     </LinearLayout>
 
-    <com.qegame.bottomappbarqe.BottomAppBarQe
-        android:id="@+id/bar"
+    <com.qegame.bottomappbarqe.BottomSheetContainer
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:elevation="@dimen/elevation_bar"/>
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom">
+
+        <com.qegame.bottomappbarqe.BottomAppBarQe
+            android:id="@+id/bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:sheetMaxHeight="200dp" />
+
+    </com.qegame.bottomappbarqe.BottomSheetContainer>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

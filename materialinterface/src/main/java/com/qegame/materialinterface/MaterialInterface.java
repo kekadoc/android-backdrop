@@ -2,7 +2,6 @@ package com.qegame.materialinterface;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -21,14 +20,14 @@ import com.google.android.material.shape.CutCornerTreatment;
 import com.google.android.material.shape.MaterialShapeDrawable;
 import com.google.android.material.shape.RoundedCornerTreatment;
 import com.google.android.material.shape.ShapeAppearanceModel;
-import com.google.android.material.snackbar.Snackbar;
 import com.qegame.animsimple.anim.LeaveMoveRotation;
 import com.qegame.animsimple.path.TranslationY;
 import com.qegame.animsimple.path.params.AnimParams;
 import com.qegame.bottomappbarqe.BottomAppBarQe;
 import com.qegame.qeshaper.QeShaper;
 import com.qegame.qeutil.androids.QeAndroid;
-import com.qegame.qeutil.androids.QeViews;
+import com.qegame.qeutil.androids.views.QeViews;
+import com.qegame.qeutil.androids.views.listeners.OnSwipeListener;
 import com.qegame.qeutil.doing.Do;
 
 import androidx.annotation.NonNull;
@@ -60,17 +59,15 @@ public class MaterialInterface extends FrameLayout {
     private ViewGroup content_shutter;
     private ScrollView scroll_back;
 
-    private int colorPrimary;
-    private int colorPrimaryDark;
-    private int colorAccent;
-    private int colorSurface;
-    private int colorOnSurface;
-    private int colorOnPrimary;
-    private int colorRipple;
+    private int colorFront;
+    private int colorSubtitleRipple;
 
     private long durationAnimation;
 
     private boolean expanded;
+
+    private MaterialShapeDrawable frontDrawable;
+    private MaterialShapeDrawable subtitleDrawable;
 
     public MaterialInterface(@NonNull Context context) {
         super(context);
@@ -91,7 +88,30 @@ public class MaterialInterface extends FrameLayout {
     private void init(@NonNull Context context, @Nullable AttributeSet attrs) {
         inflate(context, R.layout.layout, this);
 
-        initColors(context);
+        TypedValue typedValue = new TypedValue();
+
+        TypedArray a = context.obtainStyledAttributes(typedValue.data,
+                new int[] {
+                        R.attr.colorPrimary,
+                        R.attr.colorOnPrimary,
+                        R.attr.colorPrimaryDark,
+                        R.attr.colorAccent,
+                        R.attr.colorSurface,
+                        R.attr.colorOnSurface,
+                        R.attr.colorControlHighlight});
+
+        int colorPrimary = a.getColor(0, 0);
+        int colorOnPrimary = a.getColor(1, 0);
+        int colorPrimaryDark = a.getColor(2, 0);
+        int colorAccent = a.getColor(3, 0);
+        int colorSurface = a.getColor(4, 0);
+        int colorOnSurface = a.getColor(5, 0);
+        int colorRipple = a.getColor(6, 0);
+
+        this.colorFront = colorSurface;
+        this.colorSubtitleRipple = colorRipple;
+
+        a.recycle();
 
         this.durationAnimation = 400;
 
@@ -121,7 +141,7 @@ public class MaterialInterface extends FrameLayout {
         });
         setSubtitle("");
 
-        setBackColor(this.colorPrimary);
+        setBackColor(colorPrimary);
 
         int heightBABC = (int) getResources().getDimension(com.qegame.bottomappbarqe.R.dimen.height_bottom_app_bar_custom);
         int heightSubtitle = (int) getResources().getDimension(R.dimen.height_subtitle);
@@ -129,8 +149,8 @@ public class MaterialInterface extends FrameLayout {
 
         QeViews.setMargins(this.scroll_back, 0, 0, 0, frontBottomMargin);
 
-        this.title.setTextColor(this.colorOnPrimary);
-        this.subtitle.setTextColor(this.colorOnSurface);
+        this.title.setTextColor(colorOnPrimary);
+        this.subtitle.setTextColor(colorOnSurface);
 
         setFrontShape(FrontShape.ALL_ROUND);
 
@@ -145,29 +165,6 @@ public class MaterialInterface extends FrameLayout {
 
     }
 
-    private void initColors(Context context) {
-        TypedValue typedValue = new TypedValue();
-
-        TypedArray a = context.obtainStyledAttributes(typedValue.data,
-                new int[] {
-                        R.attr.colorPrimary,
-                        R.attr.colorOnPrimary,
-                        R.attr.colorPrimaryDark,
-                        R.attr.colorAccent,
-                        R.attr.colorSurface,
-                        R.attr.colorOnSurface,
-                        R.attr.colorControlHighlight});
-
-        this.colorPrimary = a.getColor(0, 0);
-        this.colorOnPrimary = a.getColor(1, 0);
-        this.colorPrimaryDark = a.getColor(2, 0);
-        this.colorAccent = a.getColor(3, 0);
-        this.colorSurface = a.getColor(4, 0);
-        this.colorOnSurface = a.getColor(5, 0);
-        this.colorRipple = a.getColor(6, 0);
-
-        a.recycle();
-    }
 
     //region Getters/Setters
 
@@ -194,6 +191,48 @@ public class MaterialInterface extends FrameLayout {
 
     //endregion
 
+    public void setFrontColor(int color, int colorSubtitleText) {
+        setFrontColor(color);
+        subtitle.setTextColor(colorSubtitleText);
+    }
+    public void setFrontColor(int color) {
+        frontDrawable.setTint(color);
+        subtitleDrawable.setTint(color);
+    }
+
+    public void setRippleSubtitleColor(int colorRipple) {
+        colorSubtitleRipple = colorRipple;
+        setupSubtitleBackground(subtitleDrawable, colorRipple);
+    }
+
+    public void setBackColor(int color, int colorTitleText) {
+        setBackColor(color);
+        title.setTextColor(colorTitleText);
+    }
+    public void setBackColor(int color) {
+        this.back.setBackgroundColor(color);
+        this.back_items.setBackgroundColor(color);
+        this.container_title.setBackgroundColor(color);
+    }
+
+    public void setColor(int colorFront, int subtitle, int colorRipple, int colorBack,
+                         int colorPanel, int colorFab, int colorFabProgress,
+                         int colorBottomSheet, int colorTitle,
+                         int colorSnackBody, int colorSnackText, int colorSnackButton, int colorSnackButtonRipple, int colorSnackButtonText)
+    {
+        setFrontColor(colorFront, subtitle);
+        setRippleSubtitleColor(colorRipple);
+        setBackColor(colorBack, colorTitle);
+        this.bar.setColorPanel(colorPanel, colorBottomSheet);
+        this.bar.progress().setColor(colorFab);
+        this.bar.progress().setColor(colorFabProgress);
+        this.bar.snack().setColorBody(colorSnackBody);
+        this.bar.snack().setColorText(colorSnackText);
+        this.bar.snack().setColorButtonBody(colorSnackButton);
+        this.bar.snack().setColorButtonRipple(colorSnackButtonRipple);
+        this.bar.snack().setColorButtonText(colorSnackButtonText);
+    }
+
     public void setupBackItemsPadding(int padding) {
 
         back_items.setPadding(
@@ -213,16 +252,20 @@ public class MaterialInterface extends FrameLayout {
                 || frontShape == FrontShape.LEFT_ROUND
                 ||frontShape == FrontShape.RIGHT_ROUND)
         {
-            this.subtitle.setBackground(QeShaper.injectRipple(this.colorRipple, getFrontDrawableRound(frontShape)));
-            this.front.setBackground(getFrontDrawableRound(frontShape));
+            this.frontDrawable = getFrontDrawableRound(frontShape);
+            this.subtitleDrawable = getFrontDrawableRound(frontShape);
+            setupSubtitleBackground(subtitleDrawable, colorSubtitleRipple);
+            this.front.setBackground(frontDrawable);
         }
 
         if (frontShape == FrontShape.ALL_CUT
                 || frontShape == FrontShape.LEFT_CUT
                 ||frontShape == FrontShape.RIGHT_CUT)
         {
-            this.front.setBackground(getFrontDrawableCut(frontShape));
-            this.subtitle.setBackground(QeShaper.injectRipple(this.colorRipple, getFrontDrawableCut(frontShape)));
+            this.frontDrawable = getFrontDrawableCut(frontShape);
+            this.subtitleDrawable = getFrontDrawableCut(frontShape);
+            setupSubtitleBackground(subtitleDrawable, colorSubtitleRipple);
+            this.front.setBackground(frontDrawable);
         }
     }
 
@@ -315,12 +358,6 @@ public class MaterialInterface extends FrameLayout {
         this.title.setText(title);
     }
 
-    public void setBackColor(int color) {
-        this.back.setBackgroundColor(color);
-        this.back_items.setBackgroundColor(color);
-        this.container_title.setBackgroundColor(color);
-    }
-
     public void setContentPadding(int left, int top, int right, int bottom) {
         this.content_shutter.setPadding(left, top, right, bottom);
     }
@@ -380,7 +417,11 @@ public class MaterialInterface extends FrameLayout {
         this.expanded = false;
     }
 
-    private Drawable getFrontDrawableRound(FrontShape frontShape, int color) {
+    private void setupSubtitleBackground(MaterialShapeDrawable drawable, int colorRipple) {
+        this.subtitle.setBackground(QeShaper.injectRipple(colorRipple, drawable));
+    }
+
+    private MaterialShapeDrawable getFrontDrawableRound(FrontShape frontShape, int color) {
         ShapeAppearanceModel.Builder shape = new ShapeAppearanceModel.Builder();
         float corner = getContext().getResources().getDimension(R.dimen.corner_round);
 
@@ -402,10 +443,10 @@ public class MaterialInterface extends FrameLayout {
         drawable.setTint(color);
         return drawable;
     }
-    private Drawable getFrontDrawableRound(FrontShape frontShape) {
-        return getFrontDrawableRound(frontShape, colorSurface);
+    private MaterialShapeDrawable getFrontDrawableRound(FrontShape frontShape) {
+        return getFrontDrawableRound(frontShape, colorFront);
     }
-    private Drawable getFrontDrawableCut(FrontShape frontShape, int color) {
+    private MaterialShapeDrawable getFrontDrawableCut(FrontShape frontShape, int color) {
         ShapeAppearanceModel.Builder shape = new ShapeAppearanceModel.Builder();
         float corner = getContext().getResources().getDimension(R.dimen.corner_cut);
 
@@ -424,8 +465,8 @@ public class MaterialInterface extends FrameLayout {
         drawable.setTint(color);
         return drawable;
     }
-    private Drawable getFrontDrawableCut(FrontShape frontShape) {
-        return getFrontDrawableCut(frontShape, colorSurface);
+    private MaterialShapeDrawable getFrontDrawableCut(FrontShape frontShape) {
+        return getFrontDrawableCut(frontShape, colorFront);
     }
 
 }
