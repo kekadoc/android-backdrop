@@ -87,7 +87,6 @@ public class MaterialInterface extends FrameLayout {
 
     private void init(@NonNull Context context, @Nullable AttributeSet attrs) {
         inflate(context, R.layout.layout, this);
-
         TypedValue typedValue = new TypedValue();
 
         TypedArray a = context.obtainStyledAttributes(typedValue.data,

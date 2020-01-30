@@ -33,7 +33,7 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
 
-    implementation 'com.github.qeGame:qeUtilLib:0.5.2-alpha.02'
+    implementation 'com.github.qeGame:qeUtilLib:0.5.2-alpha.03'
 
     implementation project(':materialinterface')
 }
