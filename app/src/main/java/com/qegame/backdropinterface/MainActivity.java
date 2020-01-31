@@ -184,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
         BottomAppBarQe.FABSettings fab = new BottomAppBarQe.FABSettings() {
             @Override
             public Drawable getImage() {
-                return null;
+                return getDrawable(R.drawable.face);
             }
 
             @Override
