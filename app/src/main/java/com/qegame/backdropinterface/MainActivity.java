@@ -9,6 +9,12 @@ import android.view.View;
 import android.widget.Button;
 
 import com.google.android.material.button.MaterialButton;
+import com.qegame.animsimple.anim.Anim;
+import com.qegame.animsimple.path.RotationX;
+import com.qegame.animsimple.path.RotationY;
+import com.qegame.animsimple.path.RotationZ;
+import com.qegame.animsimple.path.TranslationY;
+import com.qegame.animsimple.path.params.AnimParams;
 import com.qegame.bottomappbarqe.BottomAppBarQe;
 import com.qegame.materialinterface.MaterialInterface;
 import com.qegame.qeutil.graph.QeColor;
@@ -125,10 +131,23 @@ public class MainActivity extends AppCompatActivity {
                 return new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (materialInterface.getBar().progress().getValue() <= 10)
+
+                        Anim<View> anim = new Anim<>(v);
+
+                        RotationX<View> rotationX = new RotationX<>(new AnimParams.OfFloat<>(v, 0f, 360f, 1000L));
+                        RotationY<View> rotationY = new RotationY<>(new AnimParams.OfFloat<>(v, 0f, 360f, 1000L));
+                        RotationZ<View> rotationZ = new RotationZ<>(new AnimParams.OfFloat<>(v, 0f, 360f, 1000L));
+
+                        TranslationY<View> translationY = new TranslationY<>(new AnimParams.OfFloat<>(v, 0f, -360f, 1000L));
+
+                        anim.playTogether(translationY, rotationY);
+                        anim.setReverse(true);
+                        anim.start();
+
+                        /*if (materialInterface.getBar().progress().getValue() <= 10)
                             materialInterface.getBar().progress().set(100);
                         materialInterface.getBar().progress().add(-10);
-                        materialInterface.getBar().snack().show(String.valueOf(materialInterface.getBar().progress().getValue()));
+                        materialInterface.getBar().snack().show(String.valueOf(materialInterface.getBar().progress().getValue()));*/
                     }
                 };
             }
