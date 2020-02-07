@@ -1,4 +1,5 @@
 <resources>
+
     <style name="IconToolBar">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">0dp</item>
