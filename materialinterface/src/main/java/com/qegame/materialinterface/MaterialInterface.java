@@ -1,15 +1,14 @@
 package com.qegame.materialinterface;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnticipateInterpolator;
-import android.view.animation.BounceInterpolator;
-import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,14 +19,14 @@ import com.google.android.material.shape.CutCornerTreatment;
 import com.google.android.material.shape.MaterialShapeDrawable;
 import com.google.android.material.shape.RoundedCornerTreatment;
 import com.google.android.material.shape.ShapeAppearanceModel;
-import com.qegame.animsimple.anim.LeaveMoveRotation;
-import com.qegame.animsimple.path.TranslationY;
-import com.qegame.animsimple.path.params.AnimParams;
 import com.qegame.bottomappbarqe.BottomAppBarQe;
+import com.qegame.qeanim.interpolation.Interpolations;
+import com.qegame.qeanim.set.LeaveMoveRotation;
+import com.qegame.qeanim.view.TranslationY;
 import com.qegame.qeshaper.QeShaper;
+import com.qegame.qeutil.QeUtil;
 import com.qegame.qeutil.androids.QeAndroid;
 import com.qegame.qeutil.androids.views.QeViews;
-import com.qegame.qeutil.androids.views.listeners.OnSwipeListener;
 import com.qegame.qeutil.doing.Do;
 
 import androidx.annotation.NonNull;
@@ -68,6 +67,12 @@ public class MaterialInterface extends FrameLayout {
 
     private MaterialShapeDrawable frontDrawable;
     private MaterialShapeDrawable subtitleDrawable;
+
+    @Nullable private Animator animNavigationBase;
+    @Nullable private Animator animNavigationShow;
+    @Nullable private Animator animNavigationHide;
+    @Nullable private Animator animShowBack;
+    @Nullable private Animator animHideBack;
 
     public MaterialInterface(@NonNull Context context) {
         super(context);
@@ -127,6 +132,14 @@ public class MaterialInterface extends FrameLayout {
         this.content = findViewById(R.id.content);
         this.content_shutter = findViewById(R.id.content_shutter);
         this.scroll_back = findViewById(R.id.scroll_back);
+
+        this.scroll_back.addOnLayoutChangeListener(new OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                animShowBack = null;
+                animHideBack = null;
+            }
+        });
 
         setupBackItemsPadding((int) QeAndroid.dp(context, 8));
 
@@ -383,13 +396,12 @@ public class MaterialInterface extends FrameLayout {
             QeViews.doOnMeasureView(this.scroll_back, new Do.With<ScrollView>() {
                 @Override
                 public void work(ScrollView with) {
-                    TranslationY.animate(new AnimParams.OfFloat<>(
-                            front,
-                            front.getTranslationY(),
-                            (float) scroll_back.getHeight(),
-                            durationAnimation,
-                            new OvershootInterpolator())
-                    ).start();
+                    TranslationY.builder(front)
+                            .from(front.getTranslationY())
+                            .to((float) scroll_back.getHeight())
+                            .duration(durationAnimation)
+                            .interpolator(Interpolations.OVERSHOOT)
+                            .build().start();
                 }
             });
         }
@@ -397,22 +409,59 @@ public class MaterialInterface extends FrameLayout {
 
     private void navigationClick() {
         if (back_items.getChildCount() == 0) {
-            TranslationY.animate(new AnimParams.OfFloat<>(icon_navigation, -30f, 0f, 1000, new BounceInterpolator())).start();
+
+            if (animNavigationBase == null)
+                animNavigationBase = TranslationY.builder(icon_navigation)
+                        .from((float) -icon_navigation.getHeight() / 4f)
+                        .to(0f)
+                        .duration(1000)
+                        .interpolator(Interpolations.BOUNCE)
+                        .build();
+                animNavigationBase.start();
+
             return;
         }
         if (this.expanded) hideBack();
         else showBack();
     }
     private void showBack() {
-        TranslationY.animate(new AnimParams.OfFloat<>(front, 0f, (float) scroll_back.getHeight(), this.durationAnimation, new OvershootInterpolator())).start();
-        Drawable drawable = getResources().getDrawable(R.drawable.navigation_icon_close);
-        LeaveMoveRotation.Image.animate(icon_navigation, 1, this.durationAnimation, drawable).start();
+        if (animNavigationShow == null) {
+            Drawable drawable = getResources().getDrawable(R.drawable.navigation_icon_close);
+            animNavigationShow = LeaveMoveRotation.Image.animate(icon_navigation, drawable, 1, 300L);
+        }
+        animNavigationShow.start();
+
+        if (animShowBack == null) {
+            animShowBack = TranslationY.builder(front)
+                    .from(0f)
+                    .to((float) scroll_back.getHeight())
+                    .duration(400L)
+                    .interpolator(Interpolations.OVERSHOOT)
+                    .build();
+        }
+        animShowBack.start();
+
+
         this.expanded = true;
     }
     private void hideBack() {
-        TranslationY.animate(new AnimParams.OfFloat<>(front, front.getTranslationY(), 0f, this.durationAnimation, new AnticipateInterpolator())).start();
-        Drawable drawable = getResources().getDrawable(R.drawable.navigation_icon);
-        LeaveMoveRotation.Image.animate(icon_navigation, 1, this.durationAnimation, drawable).start();
+
+        if (animNavigationHide == null) {
+            Drawable drawable = getResources().getDrawable(R.drawable.navigation_icon);
+            animNavigationHide = LeaveMoveRotation.Image.animate(icon_navigation, drawable, 1, 300L);
+        }
+        animNavigationHide.start();
+
+        if (animHideBack == null) {
+            animHideBack = TranslationY.builder(front)
+                    .from(front.getTranslationY())
+                    .to(0f)
+                    .duration(400L)
+                    .interpolator(Interpolations.ANTICIPATE)
+                    .build();
+        }
+        animHideBack.start();
+
         this.expanded = false;
     }
 
