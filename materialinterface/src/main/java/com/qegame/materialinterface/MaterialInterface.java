@@ -1,6 +1,5 @@
 package com.qegame.materialinterface;
 
-import android.animation.Animator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
@@ -20,11 +19,12 @@ import com.google.android.material.shape.MaterialShapeDrawable;
 import com.google.android.material.shape.RoundedCornerTreatment;
 import com.google.android.material.shape.ShapeAppearanceModel;
 import com.qegame.bottomappbarqe.BottomAppBarQe;
+import com.qegame.qeanim.AbsQeAnim;
+import com.qegame.qeanim.AnimHolder;
 import com.qegame.qeanim.interpolation.Interpolations;
 import com.qegame.qeanim.set.LeaveMoveRotation;
 import com.qegame.qeanim.view.TranslationY;
 import com.qegame.qeshaper.QeShaper;
-import com.qegame.qeutil.QeUtil;
 import com.qegame.qeutil.androids.QeAndroid;
 import com.qegame.qeutil.androids.views.QeViews;
 import com.qegame.qeutil.doing.Do;
@@ -68,11 +68,11 @@ public class MaterialInterface extends FrameLayout {
     private MaterialShapeDrawable frontDrawable;
     private MaterialShapeDrawable subtitleDrawable;
 
-    @Nullable private Animator animNavigationBase;
-    @Nullable private Animator animNavigationShow;
-    @Nullable private Animator animNavigationHide;
-    @Nullable private Animator animShowBack;
-    @Nullable private Animator animHideBack;
+    private AnimHolder<AbsQeAnim<ImageView>, ImageView> animNavigationBase;
+    private AnimHolder<LeaveMoveRotation.Image<ImageView>, ImageView> animNavigationShow;
+    private AnimHolder<LeaveMoveRotation.Image<ImageView>, ImageView> animNavigationHide;
+    private AnimHolder<AbsQeAnim<View>, View> animShowBack;
+    private AnimHolder<AbsQeAnim<View>, View> animHideBack;
 
     public MaterialInterface(@NonNull Context context) {
         super(context);
@@ -92,6 +92,7 @@ public class MaterialInterface extends FrameLayout {
 
     private void init(@NonNull Context context, @Nullable AttributeSet attrs) {
         inflate(context, R.layout.layout, this);
+
         TypedValue typedValue = new TypedValue();
 
         TypedArray a = context.obtainStyledAttributes(typedValue.data,
@@ -136,8 +137,8 @@ public class MaterialInterface extends FrameLayout {
         this.scroll_back.addOnLayoutChangeListener(new OnLayoutChangeListener() {
             @Override
             public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                animShowBack = null;
-                animHideBack = null;
+               // animShowBack = null;
+               // animHideBack = null;
             }
         });
 
@@ -175,8 +176,76 @@ public class MaterialInterface extends FrameLayout {
         buildFirstIcon(null);
         buildSecondIcon(null);
 
-    }
+        this.animNavigationBase = new AnimHolder.NonNullHolder<AbsQeAnim<ImageView>, ImageView>(icon_navigation) {
+            @NonNull
+            @Override
+            protected AbsQeAnim<ImageView> initAnim(@Nullable ImageView target) {
+                return TranslationY.builder(target)
+                        .from((float) -target.getHeight() / 4f)
+                        .to(0f)
+                        .duration(1000)
+                        .interpolator(Interpolations.BOUNCE)
+                        .build();
+            }
+        };
+        this.animNavigationShow = new AnimHolder.NonNullHolder<LeaveMoveRotation.Image<ImageView>, ImageView>(icon_navigation) {
+            @NonNull
+            @Override
+            protected LeaveMoveRotation.Image<ImageView> initAnim(@Nullable ImageView target) {
+                Drawable drawable = getResources().getDrawable(R.drawable.navigation_icon);
+                return LeaveMoveRotation.Image.builder(target).image(drawable).duration(300L).build();
+            }
+        };
+        this.animNavigationHide = new AnimHolder.NonNullHolder<LeaveMoveRotation.Image<ImageView>, ImageView>(icon_navigation) {
+            @NonNull
+            @Override
+            protected LeaveMoveRotation.Image<ImageView> initAnim(@Nullable ImageView target) {
+                Drawable drawable = getResources().getDrawable(R.drawable.navigation_icon_close);
+                return LeaveMoveRotation.Image.builder(target).image(drawable).duration(300L).build();
+            }
+        };
+        this.animHideBack = new AnimHolder.NonNullHolder<AbsQeAnim<View>, View>(front) {
+            float val;
+            @NonNull
+            @Override
+            protected AbsQeAnim<View> initAnim(@Nullable View target) {
+                Log.e(TAG, "animHideBack: ");
+                val = front.getTranslationY();
+                return TranslationY.builder(target)
+                        .from(front.getTranslationY())
+                        .to(0f)
+                        .duration(400L)
+                        .interpolator(Interpolations.ANTICIPATE)
+                        .build();
 
+            }
+
+            @Override
+            protected boolean isCorrect(AbsQeAnim<View> animator, View target) {
+                return super.isCorrect(animator, target) && val == front.getTranslationY();
+            }
+        };
+        this.animShowBack = new AnimHolder.NonNullHolder<AbsQeAnim<View>, View>(front) {
+            float val;
+            @NonNull
+            @Override
+            protected AbsQeAnim<View> initAnim(@Nullable View target) {
+                val = scroll_back.getHeight();
+                return TranslationY.builder(target)
+                        .from(0f)
+                        .to((float) scroll_back.getHeight())
+                        .duration(400L)
+                        .interpolator(Interpolations.OVERSHOOT)
+                        .build();
+            }
+
+            @Override
+            protected boolean isCorrect(AbsQeAnim<View> animator, View target) {
+                return super.isCorrect(animator, target) && val == scroll_back.getHeight();
+            }
+        };
+
+    }
 
     //region Getters/Setters
 
@@ -409,59 +478,20 @@ public class MaterialInterface extends FrameLayout {
 
     private void navigationClick() {
         if (back_items.getChildCount() == 0) {
-
-            if (animNavigationBase == null)
-                animNavigationBase = TranslationY.builder(icon_navigation)
-                        .from((float) -icon_navigation.getHeight() / 4f)
-                        .to(0f)
-                        .duration(1000)
-                        .interpolator(Interpolations.BOUNCE)
-                        .build();
-                animNavigationBase.start();
-
+            this.animNavigationBase.start();
             return;
         }
         if (this.expanded) hideBack();
         else showBack();
     }
     private void showBack() {
-        if (animNavigationShow == null) {
-            Drawable drawable = getResources().getDrawable(R.drawable.navigation_icon_close);
-            animNavigationShow = LeaveMoveRotation.Image.animate(icon_navigation, drawable, 1, 300L);
-        }
-        animNavigationShow.start();
-
-        if (animShowBack == null) {
-            animShowBack = TranslationY.builder(front)
-                    .from(0f)
-                    .to((float) scroll_back.getHeight())
-                    .duration(400L)
-                    .interpolator(Interpolations.OVERSHOOT)
-                    .build();
-        }
-        animShowBack.start();
-
-
+        this.animNavigationShow.start();
+        this.animShowBack.start(front);
         this.expanded = true;
     }
     private void hideBack() {
-
-        if (animNavigationHide == null) {
-            Drawable drawable = getResources().getDrawable(R.drawable.navigation_icon);
-            animNavigationHide = LeaveMoveRotation.Image.animate(icon_navigation, drawable, 1, 300L);
-        }
-        animNavigationHide.start();
-
-        if (animHideBack == null) {
-            animHideBack = TranslationY.builder(front)
-                    .from(front.getTranslationY())
-                    .to(0f)
-                    .duration(400L)
-                    .interpolator(Interpolations.ANTICIPATE)
-                    .build();
-        }
-        animHideBack.start();
-
+        this.animNavigationHide.start();
+        this.animHideBack.start();
         this.expanded = false;
     }
 
