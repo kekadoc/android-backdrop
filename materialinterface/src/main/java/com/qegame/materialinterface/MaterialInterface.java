@@ -180,7 +180,7 @@ public class MaterialInterface extends FrameLayout {
         this.animNavigationBase = new AnimHolder.NonNullHolder<AbsQeAnim<ImageView>, ImageView>(icon_navigation) {
             @NonNull
             @Override
-            protected AbsQeAnim<ImageView> initAnim(@Nullable ImageView target) {
+            protected AbsQeAnim<ImageView> initAnimation(@Nullable ImageView target, int type) {
                 return TranslationY.builder(target)
                         .from((float) -target.getHeight() / 4f)
                         .to(0f)
@@ -188,11 +188,13 @@ public class MaterialInterface extends FrameLayout {
                         .interpolator(Interpolations.BOUNCE)
                         .build();
             }
+
+
         };
         this.animNavigationShow = new AnimHolder.NonNullHolder<LeaveMoveRotation.Image<ImageView>, ImageView>(icon_navigation) {
             @NonNull
             @Override
-            protected LeaveMoveRotation.Image<ImageView> initAnim(@Nullable ImageView target) {
+            protected LeaveMoveRotation.Image<ImageView> initAnimation(@Nullable ImageView target, int type) {
                 Drawable drawable = getResources().getDrawable(R.drawable.navigation_icon_close);
                 return LeaveMoveRotation.Image.builder(target).image(drawable).duration(300L).build();
             }
@@ -200,17 +202,17 @@ public class MaterialInterface extends FrameLayout {
         this.animNavigationHide = new AnimHolder.NonNullHolder<LeaveMoveRotation.Image<ImageView>, ImageView>(icon_navigation) {
             @NonNull
             @Override
-            protected LeaveMoveRotation.Image<ImageView> initAnim(@Nullable ImageView target) {
+            protected LeaveMoveRotation.Image<ImageView> initAnimation(@Nullable ImageView target, int type) {
                 Drawable drawable = getResources().getDrawable(R.drawable.navigation_icon);
                 return LeaveMoveRotation.Image.builder(target).image(drawable).duration(300L).build();
             }
         };
         this.animHideBack = new AnimHolder.NonNullHolder<AbsQeAnim<View>, View>(front) {
             float val;
+
             @NonNull
             @Override
-            protected AbsQeAnim<View> initAnim(@Nullable View target) {
-                Log.e(TAG, "animHideBack: ");
+            protected AbsQeAnim<View> initAnimation(@Nullable View target, int type) {
                 val = front.getTranslationY();
                 return TranslationY.builder(target)
                         .from(front.getTranslationY())
@@ -218,19 +220,19 @@ public class MaterialInterface extends FrameLayout {
                         .duration(400L)
                         .interpolator(Interpolations.ANTICIPATE)
                         .build();
-
             }
 
             @Override
-            protected boolean isCorrect(AbsQeAnim<View> animator, View target) {
-                return super.isCorrect(animator, target) && val == front.getTranslationY();
+            protected boolean isCorrect(View target, AbsQeAnim<View> animator, int type) {
+                return super.isCorrect(target, animator, type) && val == front.getTranslationY();
             }
         };
         this.animShowBack = new AnimHolder.NonNullHolder<AbsQeAnim<View>, View>(front) {
             float val;
+
             @NonNull
             @Override
-            protected AbsQeAnim<View> initAnim(@Nullable View target) {
+            protected AbsQeAnim<View> initAnimation(@Nullable View target, int type) {
                 val = scroll_back.getHeight();
                 return TranslationY.builder(target)
                         .from(0f)
@@ -240,9 +242,10 @@ public class MaterialInterface extends FrameLayout {
                         .build();
             }
 
+
             @Override
-            protected boolean isCorrect(AbsQeAnim<View> animator, View target) {
-                return super.isCorrect(animator, target) && val == scroll_back.getHeight();
+            protected boolean isCorrect(View target, AbsQeAnim<View> animator, int type) {
+                return super.isCorrect(target, animator, type) && val == scroll_back.getHeight();
             }
         };
 
