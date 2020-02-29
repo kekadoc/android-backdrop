@@ -1,50 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorPrimary">
+    android:background="?attr/colorPrimary"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/back"
+    <LinearLayout android:id="@+id/back"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:elevation="0dp"
         android:orientation="vertical">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/container_title"
+        <androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/container_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_title"
-            android:background="?attr/colorPrimary">
+            android:clipChildren="false"
+            android:clipToPadding="false">
 
-            <ImageView
-                android:id="@+id/icon_navigation"
+            <ImageView android:id="@+id/icon_navigation"
                 style="@style/IconToolBar"
                 android:src="@drawable/navigation_icon"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/icon_first"
+            <ImageView android:id="@+id/icon_first"
                 style="@style/IconToolBar"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/icon_second"
+            <ImageView android:id="@+id/icon_second"
                 style="@style/IconToolBar"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/icon_first"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/title"
+            <TextView android:id="@+id/title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -61,18 +59,19 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-        <ScrollView android:id="@+id/scroll_back"
+        <ScrollView
+            android:id="@+id/scroll_back"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <LinearLayout android:id="@+id/back_items"
+            <LinearLayout
+                android:id="@+id/back_items"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical"
                 android:clipChildren="false"
-                android:clipToPadding="false"/>
+                android:clipToPadding="false"
+                android:gravity="center"
+                android:orientation="vertical" />
 
         </ScrollView>
 
@@ -96,7 +95,7 @@
             android:paddingEnd="@dimen/padding_right_subtitle"
             android:paddingBottom="@dimen/padding_bottom_subtitle"
             android:text="Subtitle"
-            android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"/>
+            android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -105,13 +104,14 @@
             <FrameLayout
                 android:id="@+id/content"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent" >
 
-            <FrameLayout
-                android:id="@+id/content_shutter"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:visibility="invisible" />
+                <FrameLayout
+                    android:id="@+id/content_shutter"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:visibility="invisible" />
+            </FrameLayout>
 
         </FrameLayout>
 
@@ -127,7 +127,7 @@
             android:id="@+id/bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"/>
+            android:layout_gravity="bottom" />
 
     </com.qegame.bottomappbarqe.BottomSheetContainer>
 

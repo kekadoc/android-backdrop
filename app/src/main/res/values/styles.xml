@@ -22,7 +22,7 @@
         <item name="colorOnError">@color/colorOnError</item>
 
         <item name="colorAccent">@color/colorAccent</item>
-
+        <item name="colorControlHighlight">#FFFF0000</item>
 
     </style>
 

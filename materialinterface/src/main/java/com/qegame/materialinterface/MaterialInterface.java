@@ -3,6 +3,7 @@ package com.qegame.materialinterface;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.RippleDrawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
@@ -192,7 +193,7 @@ public class MaterialInterface extends FrameLayout {
             @NonNull
             @Override
             protected LeaveMoveRotation.Image<ImageView> initAnim(@Nullable ImageView target) {
-                Drawable drawable = getResources().getDrawable(R.drawable.navigation_icon);
+                Drawable drawable = getResources().getDrawable(R.drawable.navigation_icon_close);
                 return LeaveMoveRotation.Image.builder(target).image(drawable).duration(300L).build();
             }
         };
@@ -200,7 +201,7 @@ public class MaterialInterface extends FrameLayout {
             @NonNull
             @Override
             protected LeaveMoveRotation.Image<ImageView> initAnim(@Nullable ImageView target) {
-                Drawable drawable = getResources().getDrawable(R.drawable.navigation_icon_close);
+                Drawable drawable = getResources().getDrawable(R.drawable.navigation_icon);
                 return LeaveMoveRotation.Image.builder(target).image(drawable).duration(300L).build();
             }
         };
@@ -292,8 +293,8 @@ public class MaterialInterface extends FrameLayout {
     }
     public void setBackColor(int color) {
         this.back.setBackgroundColor(color);
-        this.back_items.setBackgroundColor(color);
-        this.container_title.setBackgroundColor(color);
+        //this.back_items.setBackgroundColor(color);
+        //this.container_title.setBackgroundColor(color);
     }
 
     public void setColor(int colorFront, int subtitle, int colorRipple, int colorBack,

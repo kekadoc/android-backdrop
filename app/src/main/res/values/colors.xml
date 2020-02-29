@@ -2,7 +2,7 @@
 <resources>
 
     <!-- Основной цвет приложения -->
-    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimary">#62F0EE</color>
     <!-- Более светлый чем Primary -->
     <color name="colorPrimaryLight">#9e47ff</color>
     <!-- Более темный чем Primary -->
